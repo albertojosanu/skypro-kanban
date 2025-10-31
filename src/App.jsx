@@ -1,9 +1,9 @@
 import "./App.css";
-import Header from "./components/Header/header.jsx";
-import Main from "./components/Main/main.jsx";
-import PopNewCard from "./components/PopNewCard/pop-new-card.jsx";
-import PopBrowse from "./components/PopBrowse/pop-browse.jsx";
-import PopExit from "./components/PopUser/pop-exit.jsx";
+import Header from "./components/Header/Header.jsx";
+import Main from "./components/Main/Main.jsx";
+import PopNewCard from "./components/PopNewCard/PopNewCard.jsx";
+import PopBrowse from "./components/PopBrowse/PopBrowse.jsx";
+import PopExit from "./components/PopUser/PopUser.jsx";
 
 function App() {
   return (
@@ -19,7 +19,6 @@ function App() {
 
         <Header />
         <Main />
-
       </div>
     </>
   );

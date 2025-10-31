@@ -1,5 +1,5 @@
 import "../../App.css";
-import Column from "../Column/main__column.jsx";
+import Column from "../Column/Column.jsx";
 
 function Main() {
   return (

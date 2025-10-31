@@ -1,5 +1,5 @@
 import "../../App.css";
-import Calendar from "../Calendar/calendar.jsx";
+import Calendar from "../Calendar/Calendar.jsx";
 
 function PopNewCard() {
   return (

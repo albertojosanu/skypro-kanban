@@ -1,5 +1,5 @@
 import "../../App.css";
-import Card from "../Card/cards__item.jsx";
+import Card from "../Card/Card.jsx";
 
 function Column() {
   return (
