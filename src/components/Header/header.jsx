@@ -1,6 +1,9 @@
 import "../../App.css";
+import { useState } from "react";
 
 function Header() {
+  const [window, setWindow] = useState(false);
+
   return (
     <>
       <header className="header">
@@ -20,12 +23,21 @@ function Header() {
               <button className="header__btn-main-new _hover01" id="btnMainNew">
                 <a href="#popNewCard">Создать новую задачу</a>
               </button>
-              <a href="#user-set-target" className="header__user _hover02">
-                Ivan Ivanov
-              </a>
+              {window === false ? (
+                // <a href="#user-set-target" onClick={() => setWindow(true)} className="header__user _hover02">
+                <a href="#user-set-target" onClick={() => {document.querySelector(".header__pop-user-set").style.display = "block"; setWindow(true)}} className="header__user _hover02">
+                  Ivan Ivanov
+                </a>
+              ) : (
+                // <a href="#" onClick={() => setWindow(false)} className="header__user _hover02">
+                <a href="#user-set-target" onClick={() => {document.querySelector(".header__pop-user-set").style.display = "none"; setWindow(false)}} className="header__user _hover02">
+                  Ivan Ivanov
+                </a>
+              )}
               <div
                 className="header__pop-user-set pop-user-set"
                 id="user-set-target"
+                data-
               >
                 {/* <a href="">x</a> */}
                 <p className="pop-user-set__name">Ivan Ivanov</p>

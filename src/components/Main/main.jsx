@@ -8,11 +8,11 @@ function Main() {
         <div className="container">
           <div className="main__block">
             <div className="main__content">
-              <Column />
-              <Column />
-              <Column />
-              <Column />
-              <Column />
+              <Column>Без статуса</Column>
+              <Column>Нужно сделать</Column>
+              <Column>В работе</Column>
+              <Column>Тестирование</Column>
+              <Column>Готово</Column>
             </div>
           </div>
         </div>

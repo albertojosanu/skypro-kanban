@@ -1,13 +1,23 @@
 import "../../App.css";
+import cardList from "../../../data.js";
 
-function Card() {
+const colorMap = [
+  { before: "Web Design", after: "_orange" },
+  { before: "Research", after: "_green" },
+  { before: "Copywriting", after: "_purple" },
+];
+
+function Card({ id }) {
+  const card = cardList.filter((data) => data.id === Number(id));
+  const color = colorMap.filter((data) => data.before === card[0].topic)[0]
+    .after;
   return (
     <>
       <div className="cards__item">
         <div className="cards__card card">
           <div className="card__group">
-            <div className="card__theme _orange">
-              <p className="_orange">Web Design</p>
+            <div className={"card__theme " + color}>
+              <p className={color}>{card[0].topic}</p>
             </div>
             <a href="#popBrowse" target="_self">
               <div className="card__btn">
@@ -19,7 +29,7 @@ function Card() {
           </div>
           <div className="card__content">
             <a href="" target="_blank">
-              <h3 className="card__title">Название задачи</h3>
+              <h3 className="card__title">{card[0].title}</h3>
             </a>
             <div className="card__date">
               <svg
@@ -50,7 +60,7 @@ function Card() {
                   </clipPath>
                 </defs>
               </svg>
-              <p>30.10.23</p>
+              <p>{card[0].date}</p>
             </div>
           </div>
         </div>

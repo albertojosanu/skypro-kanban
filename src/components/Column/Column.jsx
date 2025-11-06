@@ -1,15 +1,19 @@
 import "../../App.css";
 import Card from "../Card/Card.jsx";
+import cardList from "../../../data.js";
 
-function Column() {
+function Column({ children }) {
+  const cards = cardList.filter((data) => data.status === children);
   return (
     <>
       <div className="main__column">
         <div className="column__title">
-          <p>Без статуса</p>
+          <p>{children}</p>
         </div>
         <div className="cards">
-          <Card />
+          {cards.map((card) => (
+            <Card id={card.id} key={card.id} />
+          ))}
         </div>
       </div>
     </>
