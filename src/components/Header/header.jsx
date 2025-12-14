@@ -1,59 +1,93 @@
 import "../../App.css";
 import { useState } from "react";
+import { GlobalStyle } from "../../App.jsx";
+import {
+  SHeader,
+  SHeader__block,
+  SHeader__logo,
+  SShow,
+  SLight,
+  SDark,
+  SHeader__nav,
+  SHeader__btnMainNew,
+  SHeader__user,
+  SHeader__popUserSet,
+  SPopUserSet,
+  SPopUserSet__name,
+  SPopUserSet__mail,
+  SPopUserSet__theme,
+  SCheckbox,
+} from "./Header.styled.js";
+import { SContainer, S_hover01, S_hover03 } from "../../index.styled.js";
 
 function Header() {
   const [window, setWindow] = useState(false);
 
   return (
     <>
-      <header className="header">
-        <div className="container">
-          <div className="header__block">
-            <div className="header__logo _show _light">
-              <a href="" target="_self">
-                <img src="../images/logo.png" alt="logo" />
-              </a>
-            </div>
-            <div className="header__logo _dark">
-              <a href="" target="_self">
-                <img src="../images/logo_dark.png" alt="logo" />
-              </a>
-            </div>
-            <nav className="header__nav">
-              <button className="header__btn-main-new _hover01" id="btnMainNew">
-                <a href="#popNewCard">Создать новую задачу</a>
-              </button>
+      <GlobalStyle />
+      <SHeader>
+        <SContainer>
+          <SHeader__block>
+            <SHeader__logo>
+              <SShow>
+                <SLight>
+                  <a href="" target="_self">
+                    <img src="../images/logo.png" alt="logo" />
+                  </a>
+                </SLight>
+              </SShow>
+            </SHeader__logo>
+            <SHeader__logo>
+              <SDark>
+                <a href="" target="_self">
+                  <img src="../images/logo_dark.png" alt="logo" />
+                </a>
+              </SDark>
+            </SHeader__logo>
+            <SHeader__nav>
+              <SHeader__btnMainNew id="btnMainNew">
+                <S_hover01>
+                  <a href="#popNewCard">Создать новую задачу</a>
+                </S_hover01>
+              </SHeader__btnMainNew>
               {window === false ? (
-                // <a href="#user-set-target" onClick={() => setWindow(true)} className="header__user _hover02">
-                <a href="#user-set-target" onClick={() => {document.querySelector(".header__pop-user-set").style.display = "block"; setWindow(true)}} className="header__user _hover02">
+                <SHeader__user
+                  href="#user-set-target"
+                  onClick={() => {
+                    setWindow(true);
+                  }}
+                >
                   Ivan Ivanov
-                </a>
+                </SHeader__user>
               ) : (
-                // <a href="#" onClick={() => setWindow(false)} className="header__user _hover02">
-                <a href="#user-set-target" onClick={() => {document.querySelector(".header__pop-user-set").style.display = "none"; setWindow(false)}} className="header__user _hover02">
+                <SHeader__user
+                  href="#user-set-target"
+                  onClick={() => {
+                    setWindow(false);
+                  }}
+                >
                   Ivan Ivanov
-                </a>
+                </SHeader__user>
               )}
-              <div
-                className="header__pop-user-set pop-user-set"
-                id="user-set-target"
-                data-
-              >
-                {/* <a href="">x</a> */}
-                <p className="pop-user-set__name">Ivan Ivanov</p>
-                <p className="pop-user-set__mail">ivan.ivanov@gmail.com</p>
-                <div className="pop-user-set__theme">
-                  <p>Темная тема</p>
-                  <input type="checkbox" className="checkbox" name="checkbox" />
-                </div>
-                <button type="button" className="_hover03">
-                  <a href="#popExit">Выйти</a>
-                </button>
-              </div>
-            </nav>
-          </div>
-        </div>
-      </header>
+              <SHeader__popUserSet $type={window} id="user-set-target" data->
+                <SPopUserSet>
+                  {/* <a href="">x</a> */}
+                  <SPopUserSet__name>Ivan Ivanov</SPopUserSet__name>
+                  <SPopUserSet__mail>ivan.ivanov@gmail.com</SPopUserSet__mail>
+                  <SPopUserSet__theme>
+                    <p>Темная тема</p>
+                    <SCheckbox type="checkbox" name="checkbox" />
+                  </SPopUserSet__theme>
+                  <S_hover03 as="button" type="button">
+                    <a href="#popExit">Выйти</a>
+                  </S_hover03>
+                </SPopUserSet>
+              </SHeader__popUserSet>
+            </SHeader__nav>
+          </SHeader__block>
+        </SContainer>
+      </SHeader>
     </>
   );
 }

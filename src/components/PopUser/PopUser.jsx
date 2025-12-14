@@ -1,27 +1,44 @@
 import "../../App.css";
+import { GlobalStyle } from "../../App.jsx";
+import {
+  SPopExit,
+  SPopExit__container,
+  SPopExit__block,
+  SPopExit__ttl,
+  SPopExit__form,
+  SPopExit__formGroup,
+  SPopExit__exitYes,
+  SPopExit__exitNo,
+} from "./PopUser.styled.js";
+import { S_hover01, S_hover03 } from "../../index.styled.js";
 
 function PopExit() {
   return (
     <>
-      <div className="pop-exit" id="popExit">
-        <div className="pop-exit__container">
-          <div className="pop-exit__block">
-            <div className="pop-exit__ttl">
+      <GlobalStyle />
+      <SPopExit id="popExit">
+        <SPopExit__container>
+          <SPopExit__block>
+            <SPopExit__ttl>
               <h2>Выйти из аккаунта?</h2>
-            </div>
-            <form className="pop-exit__form" id="formExit" action="#">
-              <div className="pop-exit__form-group">
-                <button className="pop-exit__exit-yes _hover01" id="exitYes">
-                  <a href="modal/signin.html">Да, выйти</a>{" "}
-                </button>
-                <button className="pop-exit__exit-no _hover03" id="exitNo">
-                  <a href="main.html">Нет, остаться</a>{" "}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+            </SPopExit__ttl>
+            <SPopExit__form id="formExit" action="#">
+              <SPopExit__formGroup>
+                <SPopExit__exitYes id="exitYes">
+                  <S_hover01>
+                    <a href="modal/signin.html">Да, выйти</a>{" "}
+                  </S_hover01>
+                </SPopExit__exitYes>
+                <SPopExit__exitNo id="exitNo">
+                  <S_hover03>
+                    <a href="main.html">Нет, остаться</a>{" "}
+                  </S_hover03>
+                </SPopExit__exitNo>
+              </SPopExit__formGroup>
+            </SPopExit__form>
+          </SPopExit__block>
+        </SPopExit__container>
+      </SPopExit>
     </>
   );
 }
