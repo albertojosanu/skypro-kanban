@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { STarget, S_hover02 } from "../../index.styled.js";
+import { STarget, S_hover01, S_hover02 } from "../../index.styled.js";
 
 export const SHeader = styled.header`
   width: 100%;
@@ -41,7 +41,7 @@ export const SHeader__nav = styled.nav`
   justify-content: center;
 `;
 
-export const SHeader__btnMainNew = styled.button`
+export const SHeader__btnMainNew = styled(S_hover01)`
   width: 178px;
   height: 30px;
   border-radius: 4px;

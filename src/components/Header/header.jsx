@@ -46,10 +46,8 @@ function Header() {
               </SDark>
             </SHeader__logo>
             <SHeader__nav>
-              <SHeader__btnMainNew id="btnMainNew">
-                <S_hover01>
+              <SHeader__btnMainNew as="button" id="btnMainNew">
                   <a href="#popNewCard">Создать новую задачу</a>
-                </S_hover01>
               </SHeader__btnMainNew>
               {window === false ? (
                 <SHeader__user

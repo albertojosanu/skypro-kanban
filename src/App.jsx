@@ -60,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
     background-color: #f1f1f1;
   }
-`;
+`;  
 
 function App() {
   const [loading, setLoading] = useState(true);
