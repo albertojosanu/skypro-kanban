@@ -1,9 +1,11 @@
 import "../../App.css";
 import Calendar from "../Calendar/Calendar.jsx";
+import { GlobalStyle } from "../../App.jsx";
 
 function PopNewCard() {
   return (
     <>
+      <GlobalStyle />
       <div className="pop-new-card" id="popNewCard">
         <div className="pop-new-card__container">
           <div className="pop-new-card__block">

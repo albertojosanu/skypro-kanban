@@ -1,9 +1,11 @@
 import "../../App.css";
 import Calendar from "../Calendar/Calendar.jsx";
+import { GlobalStyle } from "../../App.jsx";
 
 function PopBrowse() {
   return (
     <>
+      <GlobalStyle />
       <div className="pop-browse" id="popBrowse">
         <div className="pop-browse__container">
           <div className="pop-browse__block">
