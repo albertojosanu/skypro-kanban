@@ -1,11 +1,23 @@
-import "../../App.css";
+import { useState, useEffect } from "react";
 import Column from "../Column/Column.jsx";
 import { GlobalStyle } from "../../App.jsx";
-import { SMain, SMain__block, SMain__content } from "./Main.styled.js";
+import { SLoad, SMain, SMain__block, SMain__content } from "./Main.styled.js";
 import { SContainer } from "../../index.styled.js";
 
 function Main() {
-  return (
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  return loading ? (
+    <>
+      <GlobalStyle />
+      <SLoad>Загрузка...</SLoad>
+    </>
+  ) : (
     <>
       <GlobalStyle />
       <SMain>

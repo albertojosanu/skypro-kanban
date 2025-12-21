@@ -1,5 +1,5 @@
-import "../../App.css";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { GlobalStyle } from "../../App.jsx";
 import {
   SHeader,
@@ -18,7 +18,7 @@ import {
   SPopUserSet__theme,
   SCheckbox,
 } from "./Header.styled.js";
-import { SContainer, S_hover01, S_hover03 } from "../../index.styled.js";
+import { SContainer, S_hover03 } from "../../index.styled.js";
 
 function Header() {
   const [window, setWindow] = useState(false);
@@ -32,26 +32,25 @@ function Header() {
             <SHeader__logo>
               <SShow>
                 <SLight>
-                  <a href="" target="_self">
+                  <Link to="/" target="_self">
                     <img src="../images/logo.png" alt="logo" />
-                  </a>
+                  </Link>
                 </SLight>
               </SShow>
             </SHeader__logo>
             <SHeader__logo>
               <SDark>
-                <a href="" target="_self">
+                <Link to="/" target="_self">
                   <img src="../images/logo_dark.png" alt="logo" />
-                </a>
+                </Link>
               </SDark>
             </SHeader__logo>
             <SHeader__nav>
               <SHeader__btnMainNew as="button" id="btnMainNew">
-                  <a href="#popNewCard">Создать новую задачу</a>
+                  <Link to="/card/add">Создать новую задачу</Link>
               </SHeader__btnMainNew>
               {window === false ? (
                 <SHeader__user
-                  href="#user-set-target"
                   onClick={() => {
                     setWindow(true);
                   }}
@@ -60,7 +59,6 @@ function Header() {
                 </SHeader__user>
               ) : (
                 <SHeader__user
-                  href="#user-set-target"
                   onClick={() => {
                     setWindow(false);
                   }}
@@ -78,7 +76,7 @@ function Header() {
                     <SCheckbox type="checkbox" name="checkbox" />
                   </SPopUserSet__theme>
                   <S_hover03 as="button" type="button">
-                    <a href="#popExit">Выйти</a>
+                    <Link to="/exit">Выйти</Link>
                   </S_hover03>
                 </SPopUserSet>
               </SHeader__popUserSet>

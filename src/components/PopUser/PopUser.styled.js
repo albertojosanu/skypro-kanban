@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { STarget } from "../../index.styled.js";
+import { STarget, S_hover01, S_hover03 } from "../../index.styled.js";
 
 export const SPopExit = styled(STarget)`
-  display: none;
+  display: block;
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -65,7 +65,7 @@ export const SPopExit__formGroup = styled.div`
   }
 `;
 
-export const SPopExit__exitYes = styled.button`
+export const SPopExit__exitYes = styled(S_hover01)`
   width: 153px;
   height: 30px;
   background-color: #565eef;
@@ -99,7 +99,7 @@ export const SPopExit__exitYes = styled.button`
   }
 `;
 
-export const SPopExit__exitNo = styled.button`
+export const SPopExit__exitNo = styled(S_hover03)`
   width: 153px;
   height: 30px;
   background-color: transparent;
