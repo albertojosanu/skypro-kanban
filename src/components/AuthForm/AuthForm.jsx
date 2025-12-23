@@ -12,7 +12,7 @@ import {
   SModal__formGroup,
 } from "./AuthForm.styled.js";
 
-const AuthForm = ({ isSignUp }) => {
+const AuthForm = ({ isSignUp, setIsAuth }) => {
   return (
     <>
       <GlobalStyle />
@@ -51,7 +51,7 @@ const AuthForm = ({ isSignUp }) => {
                   as="button"
                   id="btnEnter"
                   onClick={() => {
-                    !isSignUp && localStorage.setItem('auth', true);
+                    !isSignUp && setIsAuth(true);
                   }}
                 >
                   {isSignUp ? (

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import MainPage from "../../pages/MainPage.jsx";
 import SignInPage from "../../pages/SignIn.jsx";
@@ -9,16 +10,18 @@ import NotFoundPage from "../../pages/NotFound.jsx";
 import PrivateRoute from "../PrivateRoute/PrivateRoute.jsx";
 
 function AppRoutes() {
+  const [isAuth, setIsAuth] = useState(false);
+
   return (
     <Routes>
-      <Route element={<PrivateRoute isAuth={Boolean(localStorage.getItem('auth'))} />}>   
+      <Route element={<PrivateRoute isAuth={isAuth} />}>
         <Route path="/" element={<MainPage />}>
           <Route path="/card/add" element={<NewTaskPage />} />
           <Route path="/card/:id" element={<ViewTaskPage />} />
-          <Route path="/exit" element={<SignOutPage />} />
+          <Route path="/exit" element={<SignOutPage setIsAuth={setIsAuth} />} />
         </Route>
       </Route>
-      <Route path="/login" element={<SignInPage />} />
+      <Route path="/login" element={<SignInPage setIsAuth={setIsAuth} />} />
       <Route path="/register" element={<SignUpPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

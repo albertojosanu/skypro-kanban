@@ -26,13 +26,13 @@ function PopBrowse() {
           <div className="pop-browse__block">
             <div className="pop-browse__content">
               <div className="pop-browse__top-block">
-                <h3 className="pop-browse__ttl">{card.title}</h3>
+                <h3 className="pop-browse__ttl">{card.id + ": " + card.title}</h3>
                 <div className={"categories__theme theme-top " + colors[card.topic][2] + " _active-category"}>
                   <p className={colors[card.topic][2]}>{card.topic}</p>
                 </div>
               </div>
               <div className="pop-browse__status status">
-                <p className="status__p subttl">{card.status}</p>
+                <p className="status__p subttl">Статус</p>
                 <div className="status__themes">
                   <div className="status__theme _gray">
                     <p className="_gray">{card.status}</p>
