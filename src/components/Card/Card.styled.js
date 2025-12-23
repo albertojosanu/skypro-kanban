@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 const colors = {
   "Web Design": ["#ffe4c2", "#ff6d00"], //_orange
-  "Research": ["#b4fdd1", "#06b16e"], //green
-  "Copywriting": ["#e9d4ff", "#9a48f1"], //purple
-  "Unknown": ["#94a6be", "#ffffff"], //gray
+  Research: ["#b4fdd1", "#06b16e"], //green
+  Copywriting: ["#e9d4ff", "#9a48f1"], //purple
+  Unknown: ["#94a6be", "#ffffff"], //gray
 };
 
 export const SCards__item = styled.div`
@@ -37,7 +37,9 @@ export const SCards__card = styled.div`
   }
 `;
 
-export const SCard = styled.div``;
+export const SCard = styled.div`
+  width: 100%;
+`;
 
 export const SCard__group = styled.div`
   width: 100%;

@@ -1,4 +1,3 @@
-import "../../App.css";
 import { GlobalStyle } from "../../App.jsx";
 import {
   SCalendar,

@@ -1,4 +1,4 @@
-import "../../App.css";
+import { Link } from "react-router-dom";
 import { GlobalStyle } from "../../App.jsx";
 import {
   SPopExit,
@@ -10,9 +10,8 @@ import {
   SPopExit__exitYes,
   SPopExit__exitNo,
 } from "./PopUser.styled.js";
-import { S_hover01, S_hover03 } from "../../index.styled.js";
 
-function PopExit() {
+function PopExit({ setIsAuth }) {
   return (
     <>
       <GlobalStyle />
@@ -24,15 +23,17 @@ function PopExit() {
             </SPopExit__ttl>
             <SPopExit__form id="formExit" action="#">
               <SPopExit__formGroup>
-                <SPopExit__exitYes id="exitYes">
-                  <S_hover01>
-                    <a href="modal/signin.html">Да, выйти</a>{" "}
-                  </S_hover01>
+                <SPopExit__exitYes
+                  as="button"
+                  id="exitYes"
+                  onClick={() => {
+                    setIsAuth(false);
+                  }}
+                >
+                  <Link to="/login">Да, выйти</Link>{" "}
                 </SPopExit__exitYes>
-                <SPopExit__exitNo id="exitNo">
-                  <S_hover03>
-                    <a href="main.html">Нет, остаться</a>{" "}
-                  </S_hover03>
+                <SPopExit__exitNo as="button" id="exitNo">
+                  <Link to="/">Нет, остаться</Link>{" "}
                 </SPopExit__exitNo>
               </SPopExit__formGroup>
             </SPopExit__form>
