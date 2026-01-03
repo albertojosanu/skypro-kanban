@@ -1,4 +1,4 @@
-import "../../App.css";
+import { Link } from "react-router-dom";
 import cardList from "../../../data.js";
 import { GlobalStyle } from "../../App.jsx";
 import { SCards__item, SCards__card, SCard, SCard__group, SCard__theme, SCard__btn, SCard__content, SCard__title, SCard__date } from "./Card.styled.js";
@@ -15,13 +15,13 @@ function Card({ id }) {
               <SCard__theme $type={card[0].topic}>
                 <p>{card[0].topic}</p>
               </SCard__theme>
-              <a href="#popBrowse" target="_self">
+              <Link to={"/card/" + id} target="_self">
                 <SCard__btn>
                   <div></div>
                   <div></div>
                   <div></div>
                 </SCard__btn>
-              </a>
+              </Link>
             </SCard__group>
             <SCard__content>
               <a href="" target="_blank">

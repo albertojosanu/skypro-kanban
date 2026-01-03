@@ -1,8 +1,23 @@
-import "../../App.css";
+import { useMemo } from "react";
+import { Link, useParams } from "react-router-dom";
+import cardList from "../../../data.js";
 import Calendar from "../Calendar/Calendar.jsx";
 import { GlobalStyle } from "../../App.jsx";
 
 function PopBrowse() {
+  const { id } = useParams();
+  const card = useMemo(
+    () => cardList.find((data) => data.id === Number(id)),
+    [id]
+  );
+
+  const colors = {
+    "Web Design": ["#ffe4c2", "#ff6d00", "_orange"],
+    Research: ["#b4fdd1", "#06b16e", "_green"],
+    Copywriting: ["#e9d4ff", "#9a48f1", "_purple"],
+    Unknown: ["#94a6be", "#ffffff", "_gray"],
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -11,28 +26,16 @@ function PopBrowse() {
           <div className="pop-browse__block">
             <div className="pop-browse__content">
               <div className="pop-browse__top-block">
-                <h3 className="pop-browse__ttl">Название задачи</h3>
-                <div className="categories__theme theme-top _orange _active-category">
-                  <p className="_orange">Web Design</p>
+                <h3 className="pop-browse__ttl">{card.id + ": " + card.title}</h3>
+                <div className={"categories__theme theme-top " + colors[card.topic][2] + " _active-category"}>
+                  <p className={colors[card.topic][2]}>{card.topic}</p>
                 </div>
               </div>
               <div className="pop-browse__status status">
                 <p className="status__p subttl">Статус</p>
                 <div className="status__themes">
-                  <div className="status__theme _hide">
-                    <p>Без статуса</p>
-                  </div>
                   <div className="status__theme _gray">
-                    <p className="_gray">Нужно сделать</p>
-                  </div>
-                  <div className="status__theme _hide">
-                    <p>В работе</p>
-                  </div>
-                  <div className="status__theme _hide">
-                    <p>Тестирование</p>
-                  </div>
-                  <div className="status__theme _hide">
-                    <p>Готово</p>
+                    <p className="_gray">{card.status}</p>
                   </div>
                 </div>
               </div>
@@ -61,8 +64,14 @@ function PopBrowse() {
               </div>
               <div className="theme-down__categories theme-down">
                 <p className="categories__p subttl">Категория</p>
-                <div className="categories__theme _orange _active-category">
-                  <p className="_orange">Web Design</p>
+                <div
+                  className={
+                    "categories__theme " +
+                    colors[card.topic][2] +
+                    " _active-category"
+                  }
+                >
+                  <p className={colors[card.topic][2]}>{card.topic}</p>
                 </div>
               </div>
               <div className="pop-browse__btn-browse ">
@@ -75,7 +84,7 @@ function PopBrowse() {
                   </button>
                 </div>
                 <button className="btn-browse__close _btn-bg _hover01">
-                  <a href="#">Закрыть</a>
+                  <Link to="/">Закрыть</Link>
                 </button>
               </div>
               <div className="pop-browse__btn-edit _hide">
@@ -94,7 +103,7 @@ function PopBrowse() {
                   </button>
                 </div>
                 <button className="btn-edit__close _btn-bg _hover01">
-                  <a href="#">Закрыть</a>
+                  <Link to="/">Закрыть</Link>
                 </button>
               </div>
             </div>
