@@ -1,4 +1,3 @@
-//import cardList from "../../../data.js";
 import Card from "../Card/Card.jsx";
 import { GlobalStyle } from "../../App.jsx";
 import { SMain__column, SColumn__title, SCards } from "./Column.styled.js";

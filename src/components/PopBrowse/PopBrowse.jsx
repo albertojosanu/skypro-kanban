@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-//import cardList from "../../../data.js";
 import Calendar from "../Calendar/Calendar.jsx";
 import { GlobalStyle } from "../../App.jsx";
 

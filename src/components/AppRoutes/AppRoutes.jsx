@@ -29,8 +29,6 @@ function AppRoutes() {
     }
   }, []);
 
-
-
   return (
     <Routes>
       <Route element={<PrivateRoute isAuth={isAuth} />}>

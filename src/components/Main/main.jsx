@@ -9,16 +9,8 @@ import {
   SMain__description,
 } from "./Main.styled.js";
 import { SContainer } from "../../index.styled.js";
-//import { getTasks } from "../../services/api.js";
 
 function Main({ loading, tasks, error, updateTasks }) {
-  // const [loading, setLoading] = useState(false);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  // }, []);
-
   useEffect(() => {
     updateTasks();
   }, [updateTasks]);

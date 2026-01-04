@@ -10,8 +10,6 @@ export async function getTasks({ token }) {
         Authorization: "Bearer " + token,
       },
     });
-    //console.log(tasks.filter((data) => data.status === "В работе"));
-    //console.log(data.data.tasks);
     return data.data.tasks;
   } catch (error) {
     throw new Error(error.message);
