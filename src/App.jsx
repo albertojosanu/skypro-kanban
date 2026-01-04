@@ -1,6 +1,8 @@
 import { createGlobalStyle } from "styled-components";
 import "./App.css";
 import AppRoutes from "./components/AppRoutes/AppRoutes.jsx";
+import isPropValid from "@emotion/is-prop-valid";
+import { StyleSheetManager } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
   * {
@@ -50,7 +52,18 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
-  return <AppRoutes />;
+  function shouldForwardProp(propName, target) {
+    if (typeof target === "string") {
+      return isPropValid(propName);
+    }
+  }
+  return (
+    <>
+      <StyleSheetManager shouldForwardProp={shouldForwardProp}>
+        <AppRoutes />
+      </StyleSheetManager>
+    </>
+  );
 }
 
 export default App;

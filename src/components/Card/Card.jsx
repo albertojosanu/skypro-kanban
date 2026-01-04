@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import cardList from "../../../data.js";
 import { GlobalStyle } from "../../App.jsx";
 import { SCards__item, SCards__card, SCard, SCard__group, SCard__theme, SCard__btn, SCard__content, SCard__title, SCard__date } from "./Card.styled.js";
 
-function Card({ id }) {
-  const card = cardList.filter((data) => data.id === Number(id));
+function Card({ cards, id }) {
+  const card = cards.filter((data) => data._id === id);
+  const date = new Date(card[0].date.replace(/([A-Z]+)/g, " ").trim());
   return (
     <>
       <GlobalStyle />
@@ -56,7 +56,7 @@ function Card({ id }) {
                     </clipPath>
                   </defs>
                 </svg>
-                <p>{card[0].date}</p>
+                <p>{date.toLocaleDateString("ru-RU") + " " + date.toLocaleTimeString("ru-RU")}</p>
               </SCard__date>
             </SCard__content>
           </SCard>

@@ -1,13 +1,12 @@
 import { useMemo } from "react";
 import { Link, useParams } from "react-router-dom";
-import cardList from "../../../data.js";
 import Calendar from "../Calendar/Calendar.jsx";
 import { GlobalStyle } from "../../App.jsx";
 
-function PopBrowse() {
+function PopBrowse({tasks}) {
   const { id } = useParams();
   const card = useMemo(
-    () => cardList.find((data) => data.id === Number(id)),
+    () => tasks.find((data) => data._id === id),
     [id]
   );
 
@@ -26,7 +25,7 @@ function PopBrowse() {
           <div className="pop-browse__block">
             <div className="pop-browse__content">
               <div className="pop-browse__top-block">
-                <h3 className="pop-browse__ttl">{card.id + ": " + card.title}</h3>
+                <h3 className="pop-browse__ttl">{card._id + ": " + card.title}</h3>
                 <div className={"categories__theme theme-top " + colors[card.topic][2] + " _active-category"}>
                   <p className={colors[card.topic][2]}>{card.topic}</p>
                 </div>

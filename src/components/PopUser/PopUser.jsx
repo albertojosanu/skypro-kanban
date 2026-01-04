@@ -11,7 +11,7 @@ import {
   SPopExit__exitNo,
 } from "./PopUser.styled.js";
 
-function PopExit({ setIsAuth }) {
+function PopExit({ setIsAuth, setTasks, setError }) {
   return (
     <>
       <GlobalStyle />
@@ -28,6 +28,9 @@ function PopExit({ setIsAuth }) {
                   id="exitYes"
                   onClick={() => {
                     setIsAuth(false);
+                    localStorage.setItem("userInfo", "");
+                    setTasks([]);
+                    setError("");
                   }}
                 >
                   <Link to="/login">Да, выйти</Link>{" "}

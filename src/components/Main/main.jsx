@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import Column from "../Column/Column.jsx";
 import { GlobalStyle } from "../../App.jsx";
-import { SLoad, SMain, SMain__block, SMain__content } from "./Main.styled.js";
+import {
+  SLoad,
+  SMain,
+  SMain__block,
+  SMain__content,
+  SMain__description,
+} from "./Main.styled.js";
 import { SContainer } from "../../index.styled.js";
 
-function Main() {
-  const [loading, setLoading] = useState(true);
+function Main({ loading, tasks, error, updateTasks }) {
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+    updateTasks();
+  }, [updateTasks]);
 
   return loading ? (
     <>
@@ -22,13 +25,24 @@ function Main() {
       <GlobalStyle />
       <SMain>
         <SContainer>
+          <SMain__description>{error}</SMain__description>
           <SMain__block>
             <SMain__content>
-              <Column>Без статуса</Column>
-              <Column>Нужно сделать</Column>
-              <Column>В работе</Column>
-              <Column>Тестирование</Column>
-              <Column>Готово</Column>
+              <Column tasks={tasks} error={error}>
+                Без статуса
+              </Column>
+              <Column tasks={tasks} error={error}>
+                Нужно сделать
+              </Column>
+              <Column tasks={tasks} error={error}>
+                В работе
+              </Column>
+              <Column tasks={tasks} error={error}>
+                Тестирование
+              </Column>
+              <Column tasks={tasks} error={error}>
+                Готово
+              </Column>
             </SMain__content>
           </SMain__block>
         </SContainer>

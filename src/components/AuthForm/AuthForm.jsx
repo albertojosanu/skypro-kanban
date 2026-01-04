@@ -1,4 +1,5 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   GlobalStyle,
   SWrapper,
@@ -10,9 +11,88 @@ import {
   SModal__input,
   SModal__btnEnter,
   SModal__formGroup,
+  SModal__description,
 } from "./AuthForm.styled.js";
+import { signIn, signUp } from "../../services/api.js";
 
 const AuthForm = ({ isSignUp, setIsAuth }) => {
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    name: "",
+    login: "",
+    password: "",
+  });
+
+  const [errors, setErrors] = useState({
+    name: false,
+    login: false,
+    password: false,
+  });
+
+  const [error, setError] = useState("");
+
+  const validateForm = () => {
+    const newErrors = { name: false, login: false, password: false };
+    let isValid = true;
+
+    if (isSignUp && !formData.name.trim()) {
+      newErrors.name = true;
+      setError("Заполните все поля");
+      isValid = false;
+    }
+
+    if (!formData.login.trim()) {
+      newErrors.login = true;
+      setError("Заполните все поля");
+      isValid = false;
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = true;
+      setError("Заполните все поля");
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    setErrors({ ...errors, [name]: false });
+    setError("");
+  };
+
+  const handleSubmit = async (e) => {   
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    try {
+      const data = !isSignUp
+        ? await signIn(
+            JSON.stringify({
+              login: formData.login,
+              password: formData.password,
+            })
+          )
+        : await signUp(JSON.stringify(formData));
+
+      if (data) {
+        setIsAuth(true);
+        localStorage.setItem("userInfo", JSON.stringify(data));
+        navigate("/");
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -23,14 +103,17 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
               <SModal__ttl>
                 <h2>{isSignUp ? "Регистрация" : "Вход"}</h2>
               </SModal__ttl>
-              <SModal__formLogin id="formLog" action="#">
+              <SModal__formLogin id="formLog">
                 {isSignUp && (
                   <SModal__input
                     type="text"
-                    name="first-name"
-                    id="first-name"
+                    name="name"
+                    id="name"
                     placeholder="Имя"
                     autoComplete="on"
+                    onChange={handleChange}
+                    value={formData.name}
+                    error={String(errors.name)}
                   />
                 )}
                 <SModal__input
@@ -39,6 +122,9 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
                   id="formlogin"
                   placeholder="Эл. почта"
                   autoComplete="on"
+                  onChange={handleChange}
+                  value={formData.login}
+                  error={String(errors.login)}
                 />
                 <SModal__input
                   type="password"
@@ -46,19 +132,17 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
                   id="formpassword"
                   placeholder="Пароль"
                   autoComplete="on"
+                  onChange={handleChange}
+                  value={formData.password}
+                  error={String(errors.password)}
                 />
+                <SModal__description>{error}</SModal__description>
                 <SModal__btnEnter
                   as="button"
                   id="btnEnter"
-                  onClick={() => {
-                    !isSignUp && setIsAuth(true);
-                  }}
+                  onClick={handleSubmit}
                 >
-                  {isSignUp ? (
-                    <Link to="/login">Зарегистрироваться</Link>
-                  ) : (
-                    <Link to="/">Войти</Link>
-                  )}
+                  {isSignUp ? "Зарегистрироваться" : "Войти"}
                 </SModal__btnEnter>
                 {!isSignUp ? (
                   <SModal__formGroup>

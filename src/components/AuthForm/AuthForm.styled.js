@@ -193,3 +193,11 @@ export const SModal__formGroup = styled.div`
     text-decoration: underline;
   }
 `;
+
+export const SModal__description = styled.div`
+  padding-top: 10px;
+  font-size: 14px;
+  color: red;
+  width: 100%;
+  height: 20px;
+`;
