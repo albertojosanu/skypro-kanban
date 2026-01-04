@@ -1,10 +1,10 @@
-import cardList from "../../../data.js";
+//import cardList from "../../../data.js";
 import Card from "../Card/Card.jsx";
 import { GlobalStyle } from "../../App.jsx";
 import { SMain__column, SColumn__title, SCards } from "./Column.styled.js";
 
-function Column({ children }) {
-  const cards = cardList.filter((data) => data.status === children);
+function Column({ tasks, error, children }) {
+  const cards = tasks.filter((data) => data.status === children);
   return (
     <>
       <GlobalStyle />
@@ -13,8 +13,8 @@ function Column({ children }) {
           <p>{children}</p>
         </SColumn__title>
         <SCards>
-          {cards.map((card) => (
-            <Card id={card.id} key={card.id} />
+          {cards.map((data) => (
+            <Card cards={cards} id={data._id} key={data._id} />
           ))}
         </SCards>
       </SMain__column>

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import cardList from "../../../data.js";
+//import cardList from "../../../data.js";
 import { GlobalStyle } from "../../App.jsx";
 import { SCards__item, SCards__card, SCard, SCard__group, SCard__theme, SCard__btn, SCard__content, SCard__title, SCard__date } from "./Card.styled.js";
 
-function Card({ id }) {
-  const card = cardList.filter((data) => data.id === Number(id));
+function Card({ cards, id }) {
+  const card = cards.filter((data) => data._id === id);
   return (
     <>
       <GlobalStyle />

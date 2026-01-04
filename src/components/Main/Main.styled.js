@@ -31,3 +31,11 @@ export const SMain__content = styled.div`
     display: block;
   }
 `;
+
+export const SMain__description = styled.div`
+  padding-top: 10px;
+  font-size: 28px;
+  color: red;
+  width: 100%;
+  height: 30px;
+`;
