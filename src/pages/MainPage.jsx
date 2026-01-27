@@ -3,12 +3,12 @@ import Main from "../components/Main/Main.jsx";
 import Header from "../components/Header/Header.jsx";
 import { SWrapper } from "../index.styled.js";
 
-const MainPage = ({ loading, tasks, error, updateTasks }) => {
+const MainPage = () => {
   return (
     <>
       <SWrapper>
         <Header />
-        <Main loading={loading} tasks={tasks} error={error} updateTasks={updateTasks} />
+        <Main />
         <Outlet />
       </SWrapper>
     </>

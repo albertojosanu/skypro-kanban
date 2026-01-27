@@ -1,5 +1,6 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { GlobalStyle } from "../../App.jsx";
+import { GlobalStyle } from "../../index.styled.js";
 import {
   SPopExit,
   SPopExit__container,
@@ -10,8 +11,14 @@ import {
   SPopExit__exitYes,
   SPopExit__exitNo,
 } from "./PopUser.styled.js";
+import { AuthContext } from "../../context/AuthContext.js";
+import { TaskContext } from "../../context/TaskContext.js";
 
-function PopExit({ setIsAuth, setTasks, setError }) {
+function PopExit() {
+  const { logout } = useContext(AuthContext);
+  const { setTasks } = useContext(TaskContext);
+  const { setError } = useContext(TaskContext);
+
   return (
     <>
       <GlobalStyle />
@@ -27,16 +34,16 @@ function PopExit({ setIsAuth, setTasks, setError }) {
                   as="button"
                   id="exitYes"
                   onClick={() => {
-                    setIsAuth(false);
-                    localStorage.setItem("userInfo", "");
+                    logout();
                     setTasks([]);
                     setError("");
                   }}
                 >
-                  <Link to="/login">Да, выйти</Link>{" "}
+                  <Link to="/login">Да, выйти</Link>
                 </SPopExit__exitYes>
+
                 <SPopExit__exitNo as="button" id="exitNo">
-                  <Link to="/">Нет, остаться</Link>{" "}
+                  <Link to="/">Нет, остаться</Link>
                 </SPopExit__exitNo>
               </SPopExit__formGroup>
             </SPopExit__form>

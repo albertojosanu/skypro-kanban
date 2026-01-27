@@ -1,4 +1,4 @@
-import { GlobalStyle } from "../../App.jsx";
+import { GlobalStyle } from "../../index.styled.js";
 import {
   SCalendar,
   SCalendar__ttl,

@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import Card from "../Card/Card.jsx";
-import { GlobalStyle } from "../../App.jsx";
+import { GlobalStyle } from "../../index.styled.js";
 import { SMain__column, SColumn__title, SCards } from "./Column.styled.js";
+import { TaskContext } from "../../context/TaskContext.js";
 
-function Column({ tasks, error, children }) {
+function Column({ children }) {
+  const { tasks } = useContext(TaskContext);
   const cards = tasks.filter((data) => data.status === children);
   return (
     <>

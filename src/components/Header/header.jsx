@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { GlobalStyle } from "../../App.jsx";
 import {
   SHeader,
   SHeader__block,
@@ -18,7 +17,7 @@ import {
   SPopUserSet__theme,
   SCheckbox,
 } from "./Header.styled.js";
-import { SContainer, S_hover03 } from "../../index.styled.js";
+import { GlobalStyle, SContainer, S_hover03 } from "../../index.styled.js";
 
 function Header() {
   const [window, setWindow] = useState(false);
@@ -46,9 +45,11 @@ function Header() {
               </SDark>
             </SHeader__logo>
             <SHeader__nav>
-              <SHeader__btnMainNew as="button" id="btnMainNew">
-                  <Link to="/card/add">Создать новую задачу</Link>
-              </SHeader__btnMainNew>
+              <Link to="/card/add">
+                <SHeader__btnMainNew as="button" id="btnMainNew">
+                  Создать новую задачу
+                </SHeader__btnMainNew>
+              </Link>
               {window === false ? (
                 <SHeader__user
                   onClick={() => {
@@ -75,9 +76,11 @@ function Header() {
                     <p>Темная тема</p>
                     <SCheckbox type="checkbox" name="checkbox" />
                   </SPopUserSet__theme>
-                  <S_hover03 as="button" type="button">
-                    <Link to="/exit">Выйти</Link>
-                  </S_hover03>
+                  <Link to="/exit">
+                    <S_hover03 as="button" type="button">
+                      Выйти
+                    </S_hover03>
+                  </Link>
                 </SPopUserSet>
               </SHeader__popUserSet>
             </SHeader__nav>
