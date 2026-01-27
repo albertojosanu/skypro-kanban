@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { GlobalStyle } from "../../App.jsx";
+import { GlobalStyle } from "../../index.styled.js";
 import { SCards__item, SCards__card, SCard, SCard__group, SCard__theme, SCard__btn, SCard__content, SCard__title, SCard__date } from "./Card.styled.js";
 
 function Card({ cards, id }) {

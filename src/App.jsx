@@ -1,55 +1,16 @@
-import { createGlobalStyle } from "styled-components";
 import "./App.css";
-import AppRoutes from "./components/AppRoutes/AppRoutes.jsx";
+import AppRoutes from "./components/AppRoutes/AppRoutes";
 import isPropValid from "@emotion/is-prop-valid";
 import { StyleSheetManager } from "styled-components";
+import AuthProvider from "./context/AuthProvider.jsx";
+import TaskProvider from "./context/TaskProvider.jsx";
 
-export const GlobalStyle = createGlobalStyle`
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-
-  *:before,
-  *:after {
-    box-sizing: border-box;
-  }
-
-  a,
-  a:visited {
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  button,
-  ._btn {
-    cursor: pointer;
-    outline: none;
-  }
-
-  ul li {
-    list-style: none;
-  }
-
-  @keyframes card-animation {
-    0% {
-      height: 0;
-      opacity: 0;
-    }
-    100% {
-      height: auto;
-      opacity: 1;
-    }
-  }
-  html,
-  body {
-    width: 100%;
-    height: 100%;
-    font-family: "Roboto", Arial, Helvetica, sans-serif;
-    color: #000000;
-  }
-`;
+export const colors = {
+  "Web Design": ["#ffe4c2", "#ff6d00", "_orange"],
+  Research: ["#b4fdd1", "#06b16e", "_green"],
+  Copywriting: ["#e9d4ff", "#9a48f1", "_purple"],
+  Unknown: ["#94a6be", "#ffffff", "_gray"],
+};
 
 function App() {
   function shouldForwardProp(propName, target) {
@@ -60,7 +21,11 @@ function App() {
   return (
     <>
       <StyleSheetManager shouldForwardProp={shouldForwardProp}>
-        <AppRoutes />
+        <AuthProvider>
+          <TaskProvider>
+            <AppRoutes />
+          </TaskProvider>
+        </AuthProvider>
       </StyleSheetManager>
     </>
   );

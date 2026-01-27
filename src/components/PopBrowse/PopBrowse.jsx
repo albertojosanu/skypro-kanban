@@ -1,21 +1,19 @@
-import { useMemo } from "react";
+import { useMemo, useContext, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Calendar from "../Calendar/Calendar.jsx";
-import { GlobalStyle } from "../../App.jsx";
+import { GlobalStyle } from "../../index.styled.js";
+import { TaskContext } from "../../context/TaskContext.js";
+import { colors } from "../../App.jsx";
 
-function PopBrowse({tasks}) {
+function PopBrowse() {
+  const { tasks } = useContext(TaskContext);
+  const { updateTask } = useContext(TaskContext);
+  const { removeTask } = useContext(TaskContext);
   const { id } = useParams();
-  const card = useMemo(
-    () => tasks.find((data) => data._id === id),
-    [id]
-  );
-
-  const colors = {
-    "Web Design": ["#ffe4c2", "#ff6d00", "_orange"],
-    Research: ["#b4fdd1", "#06b16e", "_green"],
-    Copywriting: ["#e9d4ff", "#9a48f1", "_purple"],
-    Unknown: ["#94a6be", "#ffffff", "_gray"],
-  };
+  const card = useMemo(() => tasks.find((data) => data._id === id), [id]);
+  const [mode, setMode] = useState("browse");
+  const [status, setStatus] = useState(card.status);
+  let description = card.description;
 
   return (
     <>
@@ -25,16 +23,71 @@ function PopBrowse({tasks}) {
           <div className="pop-browse__block">
             <div className="pop-browse__content">
               <div className="pop-browse__top-block">
-                <h3 className="pop-browse__ttl">{card._id + ": " + card.title}</h3>
-                <div className={"categories__theme theme-top " + colors[card.topic][2] + " _active-category"}>
+                <h3 className="pop-browse__ttl">
+                  {card.title + " (id: " + card._id + ")"}
+                </h3>
+                <div
+                  className={
+                    "categories__theme theme-top " +
+                    colors[card.topic][2] +
+                    " _active-category"
+                  }
+                >
                   <p className={colors[card.topic][2]}>{card.topic}</p>
                 </div>
               </div>
               <div className="pop-browse__status status">
                 <p className="status__p subttl">Статус</p>
                 <div className="status__themes">
-                  <div className="status__theme _gray">
-                    <p className="_gray">{card.status}</p>
+                  <div
+                    className={`status__theme ${mode === "browse" ? (status !== "Без статуса" ? " _hide" : " _gray") : status === "Без статуса" && " _gray"}`}
+                    onClick={() => setStatus("Без статуса")}
+                  >
+                    <p
+                      className={status === "Без статуса" ? "_gray" : undefined}
+                    >
+                      Без статуса
+                    </p>
+                  </div>
+                  <div
+                    className={`status__theme ${mode === "browse" ? (status !== "Нужно сделать" ? " _hide" : " _gray") : status === "Нужно сделать" && " _gray"}`}
+                    onClick={() => setStatus("Нужно сделать")}
+                  >
+                    <p
+                      className={
+                        status === "Нужно сделать" ? "_gray" : undefined
+                      }
+                    >
+                      Нужно сделать
+                    </p>
+                  </div>
+                  <div
+                    className={`status__theme ${mode === "browse" ? (status !== "В работе" ? " _hide" : " _gray") : status === "В работе" && " _gray"}`}
+                    onClick={() => setStatus("В работе")}
+                  >
+                    <p className={status === "В работе" ? "_gray" : undefined}>
+                      В работе
+                    </p>
+                  </div>
+                  <div
+                    className={`status__theme ${mode === "browse" ? (status !== "Тестирование" ? " _hide" : " _gray") : status === "Тестирование" && " _gray"}`}
+                    onClick={() => setStatus("Тестирование")}
+                  >
+                    <p
+                      className={
+                        status === "Тестирование" ? "_gray" : undefined
+                      }
+                    >
+                      Тестирование
+                    </p>
+                  </div>
+                  <div
+                    className={`status__theme ${mode === "browse" ? (status !== "Готово" ? " _hide" : " _gray") : status === "Готово" && " _gray"}`}
+                    onClick={() => setStatus("Готово")}
+                  >
+                    <p className={status === "Готово" ? "_gray" : undefined}>
+                      Готово
+                    </p>
                   </div>
                 </div>
               </div>
@@ -48,13 +101,26 @@ function PopBrowse({tasks}) {
                     <label htmlFor="textArea01" className="subttl">
                       Описание задачи
                     </label>
-                    <textarea
-                      className="form-browse__area"
-                      name="text"
-                      id="textArea01"
-                      readOnly
-                      placeholder="Введите описание задачи..."
-                    ></textarea>
+                    {mode === "browse" ? (
+                      <textarea
+                        className="form-browse__area"
+                        name="text"
+                        id="textArea01"
+                        readOnly
+                        placeholder="Введите описание задачи..."
+                        value={card.description}
+                      ></textarea>
+                    ) : (
+                      <textarea
+                        className="form-new__area"
+                        name="text"
+                        id="textArea01"
+                        placeholder="Введите описание задачи..."
+                        onChange={(e) => {
+                          description = e.target;
+                        }}
+                      ></textarea>
+                    )}
                   </div>
                 </form>
                 <div className="pop-new-card__calendar">
@@ -73,37 +139,85 @@ function PopBrowse({tasks}) {
                   <p className={colors[card.topic][2]}>{card.topic}</p>
                 </div>
               </div>
-              <div className="pop-browse__btn-browse ">
+              <div
+                className={`pop-browse__btn-browse ${mode !== "browse" && "_hide"}`}
+              >
                 <div className="btn-group">
-                  <button className="btn-browse__edit _btn-bor _hover03">
-                    <a href="#">Редактировать задачу</a>
+                  <button
+                    className="btn-browse__edit _btn-bor _hover03"
+                    onClick={() => setMode("edit")}
+                  >
+                    Редактировать задачу
                   </button>
-                  <button className="btn-browse__delete _btn-bor _hover03">
-                    <a href="#">Удалить задачу</a>
-                  </button>
+                  <Link to="/">
+                    <button
+                      className="btn-browse__delete _btn-bor _hover03"
+                      onClick={() => {
+                        removeTask(card._id);
+                      }}
+                    >
+                      Удалить задачу
+                    </button>
+                  </Link>
                 </div>
-                <button className="btn-browse__close _btn-bg _hover01">
-                  <Link to="/">Закрыть</Link>
-                </button>
-              </div>
-              <div className="pop-browse__btn-edit _hide">
-                <div className="btn-group">
-                  <button className="btn-edit__edit _btn-bg _hover01">
-                    <a href="#">Сохранить</a>
+                <Link to="/">
+                  <button className="btn-browse__close _btn-bg _hover01">
+                    Закрыть
                   </button>
-                  <button className="btn-edit__edit _btn-bor _hover03">
+                </Link>
+              </div>
+              <div
+                className={`pop-browse__btn-edit ${mode !== "edit" && "_hide"}`}
+              >
+                <div className="btn-group">
+                  <Link to="/">
+                    <button
+                      className="btn-edit__edit _btn-bg _hover01"
+                      onClick={() => {
+                        const dt = new Date();
+                        updateTask(
+                          {
+                            title: card.title,
+                            topic: card.topic,
+                            status,
+                            description,
+                            date: dt.toLocaleString("en-US", {
+                              timeZone: "Europe/Moscow",
+                            }),
+                          },
+                          card._id,
+                        );
+                      }}
+                    >
+                      Сохранить
+                    </button>
+                  </Link>
+                  <button
+                    className="btn-edit__edit _btn-bor _hover03"
+                    onClick={() => {
+                      setMode("browse");
+                      setStatus(card.status);
+                    }}
+                  >
                     <a href="#">Отменить</a>
                   </button>
-                  <button
-                    className="btn-edit__delete _btn-bor _hover03"
-                    id="btnDelete"
-                  >
-                    <a href="#">Удалить задачу</a>
-                  </button>
+                  <Link to="/">
+                    <button
+                      className="btn-edit__delete _btn-bor _hover03"
+                      id="btnDelete"
+                      onClick={() => {
+                        removeTask(card._id);
+                      }}
+                    >
+                      Удалить задачу
+                    </button>
+                  </Link>
                 </div>
-                <button className="btn-edit__close _btn-bg _hover01">
-                  <Link to="/">Закрыть</Link>
-                </button>
+                <Link to="/">
+                  <button className="btn-edit__close _btn-bg _hover01">
+                    Закрыть
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

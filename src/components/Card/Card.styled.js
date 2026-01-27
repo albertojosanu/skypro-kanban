@@ -1,11 +1,5 @@
 import styled from "styled-components";
-
-const colors = {
-  "Web Design": ["#ffe4c2", "#ff6d00"], //_orange
-  Research: ["#b4fdd1", "#06b16e"], //green
-  Copywriting: ["#e9d4ff", "#9a48f1"], //purple
-  Unknown: ["#94a6be", "#ffffff"], //gray
-};
+import { colors } from "../../App.jsx";
 
 export const SCards__item = styled.div`
   padding: 5px;
@@ -63,21 +57,6 @@ export const SCard__theme = styled.div`
     line-height: 10px;
   }
 `;
-
-// export const S_orange = styled.div`
-//   background-color: #ffe4c2;
-//   color: #ff6d00;
-// `;
-
-// export const S_green = styled.div`
-//   background-color: #ffe4c2;
-//   color: #ff6d00;
-// `;
-
-// export const S_purple = styled.div`
-//   background-color: #ffe4c2;
-//   color: #ff6d00;
-// `;
 
 export const SCard__btn = styled.div`
   width: 24px;
