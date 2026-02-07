@@ -1,11 +1,13 @@
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Calendar from "../Calendar/Calendar.jsx";
 import { GlobalStyle } from "../../index.styled.js";
 import { TaskContext } from "../../context/TaskContext.js";
 
 function PopNewCard() {
   const { addNewTask } = useContext(TaskContext);
+  const { date } = useContext(TaskContext);
+  const { setDate } = useContext(TaskContext);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -21,6 +23,8 @@ function PopNewCard() {
       [name]: value,
     });
   };
+
+  const navigate = useNavigate();
 
   return (
     <>
@@ -93,26 +97,23 @@ function PopNewCard() {
                   </div>
                 </div>
               </div>
-              <Link to="/">
-                <button
-                  className="form-new__create _hover01"
-                  id="btnCreate"
-                  onClick={() => {
-                    const dt = new Date();
-                    addNewTask({
-                      title: formData.name,
-                      topic,
-                      status: "Без статуса",
-                      description: formData.text,
-                      date: dt.toLocaleString("en-US", {
-                        timeZone: "Europe/Moscow",
-                      }),
-                    });
-                  }}
-                >
-                  Создать задачу
-                </button>
-              </Link>
+              <button
+                className="form-new__create _hover01"
+                id="btnCreate"
+                onClick={() => {
+                  addNewTask({
+                    title: formData.name,
+                    topic,
+                    status: "Без статуса",
+                    description: formData.text,
+                    date,
+                  });
+                  setDate(null);
+                  navigate("/");
+                }}
+              >
+                Создать задачу
+              </button>
             </div>
           </div>
         </div>

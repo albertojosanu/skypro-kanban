@@ -1,5 +1,5 @@
 import { useMemo, useContext, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Calendar from "../Calendar/Calendar.jsx";
 import { GlobalStyle } from "../../index.styled.js";
 import { TaskContext } from "../../context/TaskContext.js";
@@ -12,8 +12,17 @@ function PopBrowse() {
   const { id } = useParams();
   const card = useMemo(() => tasks.find((data) => data._id === id), [id]);
   const [mode, setMode] = useState("browse");
-  const [status, setStatus] = useState(card.status);
-  let description = card.description;
+  const [status, setStatus] = useState(card?.status);
+  let description = card?.description;
+  const { date } = useContext(TaskContext);
+  const { setDate } = useContext(TaskContext);
+
+  const navigate = useNavigate();
+  const handleClose = (e) => {
+    e.preventDefault();
+    setDate(null);
+    navigate("/");
+  };
 
   return (
     <>
@@ -24,16 +33,16 @@ function PopBrowse() {
             <div className="pop-browse__content">
               <div className="pop-browse__top-block">
                 <h3 className="pop-browse__ttl">
-                  {card.title + " (id: " + card._id + ")"}
+                  {card?.title + " (id: " + card?._id + ")"}
                 </h3>
                 <div
                   className={
                     "categories__theme theme-top " +
-                    colors[card.topic][2] +
+                    colors[card?.topic]?.[2] +
                     " _active-category"
                   }
                 >
-                  <p className={colors[card.topic][2]}>{card.topic}</p>
+                  <p className={colors[card?.topic]?.[2]}>{card?.topic}</p>
                 </div>
               </div>
               <div className="pop-browse__status status">
@@ -108,7 +117,7 @@ function PopBrowse() {
                         id="textArea01"
                         readOnly
                         placeholder="Введите описание задачи..."
-                        value={card.description}
+                        value={card?.description}
                       ></textarea>
                     ) : (
                       <textarea
@@ -117,14 +126,14 @@ function PopBrowse() {
                         id="textArea01"
                         placeholder="Введите описание задачи..."
                         onChange={(e) => {
-                          description = e.target;
+                          description = e.target.value;
                         }}
                       ></textarea>
                     )}
                   </div>
                 </form>
                 <div className="pop-new-card__calendar">
-                  <Calendar />
+                  <Calendar mode={mode} />
                 </div>
               </div>
               <div className="theme-down__categories theme-down">
@@ -132,11 +141,11 @@ function PopBrowse() {
                 <div
                   className={
                     "categories__theme " +
-                    colors[card.topic][2] +
+                    colors[card?.topic]?.[2] +
                     " _active-category"
                   }
                 >
-                  <p className={colors[card.topic][2]}>{card.topic}</p>
+                  <p className={colors[card?.topic]?.[2]}>{card?.topic}</p>
                 </div>
               </div>
               <div
@@ -149,75 +158,75 @@ function PopBrowse() {
                   >
                     Редактировать задачу
                   </button>
-                  <Link to="/">
-                    <button
-                      className="btn-browse__delete _btn-bor _hover03"
-                      onClick={() => {
-                        removeTask(card._id);
-                      }}
-                    >
-                      Удалить задачу
-                    </button>
-                  </Link>
-                </div>
-                <Link to="/">
-                  <button className="btn-browse__close _btn-bg _hover01">
-                    Закрыть
+                  <button
+                    className="btn-browse__delete _btn-bor _hover03"
+                    onClick={() => {
+                      removeTask(card?._id);
+                      setDate(null);
+                      navigate("/");
+                    }}
+                  >
+                    Удалить задачу
                   </button>
-                </Link>
+                </div>
+                <button
+                  className="btn-browse__close _btn-bg _hover01"
+                  onClick={handleClose}
+                >
+                  Закрыть
+                </button>
               </div>
               <div
                 className={`pop-browse__btn-edit ${mode !== "edit" && "_hide"}`}
               >
                 <div className="btn-group">
-                  <Link to="/">
-                    <button
-                      className="btn-edit__edit _btn-bg _hover01"
-                      onClick={() => {
-                        const dt = new Date();
-                        updateTask(
-                          {
-                            title: card.title,
-                            topic: card.topic,
-                            status,
-                            description,
-                            date: dt.toLocaleString("en-US", {
-                              timeZone: "Europe/Moscow",
-                            }),
-                          },
-                          card._id,
-                        );
-                      }}
-                    >
-                      Сохранить
-                    </button>
-                  </Link>
+                  <button
+                    className="btn-edit__edit _btn-bg _hover01"
+                    onClick={() => {
+                      const dt = new Date();
+                      updateTask(
+                        {
+                          title: card?.title,
+                          topic: card?.topic,
+                          status,
+                          description,
+                          date,
+                        },
+                        card._id,
+                      );
+                      setDate(null);
+                      navigate("/");
+                    }}
+                  >
+                    Сохранить
+                  </button>
                   <button
                     className="btn-edit__edit _btn-bor _hover03"
                     onClick={() => {
                       setMode("browse");
-                      setStatus(card.status);
+                      setStatus(card?.status);
                     }}
                   >
-                    <a href="#">Отменить</a>
+                    Отменить
                   </button>
-                  <Link to="/">
-                    <button
-                      className="btn-edit__delete _btn-bor _hover03"
-                      id="btnDelete"
-                      onClick={() => {
-                        removeTask(card._id);
-                      }}
-                    >
-                      Удалить задачу
-                    </button>
-                  </Link>
+                  <button
+                    className="btn-edit__delete _btn-bor _hover03"
+                    id="btnDelete"
+                    onClick={() => {
+                      removeTask(card?._id);
+                      setDate(null);
+                      navigate("/");
+                    }}
+                  >
+                    Удалить задачу
+                  </button>
                 </div>
-                <Link to="/">
-                  <button className="btn-edit__close _btn-bg _hover01">
-                    Закрыть
-                  </button>
-                </Link>
+                <button
+                  className="btn-edit__close _btn-bg _hover01"
+                  onClick={handleClose}
+                >
+                  Закрыть
+                </button>
               </div>
             </div>
           </div>

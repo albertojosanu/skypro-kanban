@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from "react";
+import { useState, useContext, useCallback } from "react";
 import { AuthContext } from "./AuthContext.js";
 import { TaskContext } from "./TaskContext.js";
 import { getTasks, postTask, editTask, deleteTask } from "../services/api.js";
@@ -7,6 +7,7 @@ const TaskProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
+  const [date, setDate] = useState(null);
 
   const { user } = useContext(AuthContext);
 
@@ -24,7 +25,7 @@ const TaskProvider = ({ children }) => {
     }
   }, []);
 
-  const addNewTask = async ( task ) => {
+  const addNewTask = async (task) => {
     try {
       const newTasks = await postTask({ token: user?.token, task });
       setTasks(newTasks);
@@ -33,7 +34,7 @@ const TaskProvider = ({ children }) => {
     }
   };
 
-  const updateTask = async ( task, id ) => {
+  const updateTask = async (task, id) => {
     try {
       const newTasks = await editTask({ token: user?.token, id, task });
       setTasks(newTasks);
@@ -42,7 +43,7 @@ const TaskProvider = ({ children }) => {
     }
   };
 
-  const removeTask = async ( id ) => {
+  const removeTask = async (id) => {
     try {
       const newTasks = await deleteTask({ token: user?.token, id });
       setTasks(newTasks);
@@ -63,6 +64,8 @@ const TaskProvider = ({ children }) => {
         addNewTask,
         updateTask,
         removeTask,
+        date,
+        setDate,
       }}
     >
       {children}

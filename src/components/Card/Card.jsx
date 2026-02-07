@@ -1,10 +1,27 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GlobalStyle } from "../../index.styled.js";
-import { SCards__item, SCards__card, SCard, SCard__group, SCard__theme, SCard__btn, SCard__content, SCard__title, SCard__date } from "./Card.styled.js";
+import {
+  SCards__item,
+  SCards__card,
+  SCard,
+  SCard__group,
+  SCard__theme,
+  SCard__btn,
+  SCard__content,
+  SCard__title,
+  SCard__date,
+} from "./Card.styled.js";
 
 function Card({ cards, id }) {
   const card = cards.filter((data) => data._id === id);
-  const date = new Date(card[0].date.replace(/([A-Z]+)/g, " ").trim());
+  const date = new Date(card[0].date).toLocaleDateString("ru-RU");
+
+  const navigate = useNavigate();
+  const handleCard = (e) => {
+    e.preventDefault();
+    navigate("/card/" + id);
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -15,18 +32,14 @@ function Card({ cards, id }) {
               <SCard__theme $type={card[0].topic}>
                 <p>{card[0].topic}</p>
               </SCard__theme>
-              <Link to={"/card/" + id} target="_self">
-                <SCard__btn>
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </SCard__btn>
-              </Link>
+              <SCard__btn onClick={handleCard}>
+                <div></div>
+                <div></div>
+                <div></div>
+              </SCard__btn>
             </SCard__group>
             <SCard__content>
-              <a href="" target="_blank">
-                <SCard__title>{card[0].title}</SCard__title>
-              </a>
+              <SCard__title>{card[0].title}</SCard__title>
               <SCard__date>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +69,9 @@ function Card({ cards, id }) {
                     </clipPath>
                   </defs>
                 </svg>
-                <p>{date.toLocaleDateString("ru-RU") + " " + date.toLocaleTimeString("ru-RU")}</p>
+                <p>
+                  {date}
+                </p>
               </SCard__date>
             </SCard__content>
           </SCard>

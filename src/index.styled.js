@@ -91,12 +91,10 @@ export const S_hover02 = styled.a`
 `;
 
 export const S_hover03 = styled.div`
+  color: #ffffff;
+
   &:hover {
     background-color: #33399b;
     color: #ffffff;
-
-    a {
-      color: #ffffff;
-    }
   }
 `;

@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GlobalStyle } from "../../index.styled.js";
 import {
   SPopExit,
@@ -19,6 +19,16 @@ function PopExit() {
   const { setTasks } = useContext(TaskContext);
   const { setError } = useContext(TaskContext);
 
+  const navigate = useNavigate();
+  const handleQuit = (e) => {
+    e.preventDefault();
+    navigate("/login");
+  };
+  const handleStay = (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -37,13 +47,13 @@ function PopExit() {
                     logout();
                     setTasks([]);
                     setError("");
+                    handleQuit;
                   }}
                 >
-                  <Link to="/login">Да, выйти</Link>
+                  Да, выйти
                 </SPopExit__exitYes>
-
-                <SPopExit__exitNo as="button" id="exitNo">
-                  <Link to="/">Нет, остаться</Link>
+                <SPopExit__exitNo as="button" id="exitNo" onClick={handleStay}>
+                  Нет, остаться
                 </SPopExit__exitNo>
               </SPopExit__formGroup>
             </SPopExit__form>

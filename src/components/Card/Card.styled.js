@@ -65,6 +65,7 @@ export const SCard__btn = styled.div`
   align-items: center;
   justify-content: space-around;
   padding: 2px;
+  cursor: pointer;
 
   div {
     width: 4px;
