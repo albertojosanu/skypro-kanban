@@ -1,8 +1,31 @@
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Calendar from "../Calendar/Calendar.jsx";
-import { GlobalStyle } from "../../App.jsx";
+import { GlobalStyle } from "../../index.styled.js";
+import { TaskContext } from "../../context/TaskContext.js";
 
 function PopNewCard() {
+  const { addNewTask } = useContext(TaskContext);
+  const { date } = useContext(TaskContext);
+  const { setDate } = useContext(TaskContext);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    text: "",
+  });
+
+  const [topic, setTopic] = useState("Web Design");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const navigate = useNavigate();
+
   return (
     <>
       <GlobalStyle />
@@ -31,6 +54,7 @@ function PopNewCard() {
                       id="formTitle"
                       placeholder="Введите название задачи..."
                       autoFocus
+                      onChange={handleChange}
                     />
                   </div>
                   <div className="form-new__block">
@@ -42,6 +66,7 @@ function PopNewCard() {
                       name="text"
                       id="textArea"
                       placeholder="Введите описание задачи..."
+                      onChange={handleChange}
                     ></textarea>
                   </div>
                 </form>
@@ -52,18 +77,41 @@ function PopNewCard() {
               <div className="pop-new-card__categories categories">
                 <p className="categories__p subttl">Категория</p>
                 <div className="categories__themes">
-                  <div className="categories__theme _orange _active-category">
+                  <div
+                    className={`categories__theme _orange ${topic === "Web Design" && " _active-category"}`}
+                    onClick={() => setTopic("Web Design")}
+                  >
                     <p className="_orange">Web Design</p>
                   </div>
-                  <div className="categories__theme _green">
+                  <div
+                    className={`categories__theme _green ${topic === "Research" && " _active-category"}`}
+                    onClick={() => setTopic("Research")}
+                  >
                     <p className="_green">Research</p>
                   </div>
-                  <div className="categories__theme _purple">
+                  <div
+                    className={`categories__theme _purple ${topic === "Copywriting" && " _active-category"}`}
+                    onClick={() => setTopic("Copywriting")}
+                  >
                     <p className="_purple">Copywriting</p>
                   </div>
                 </div>
               </div>
-              <button className="form-new__create _hover01" id="btnCreate">
+              <button
+                className="form-new__create _hover01"
+                id="btnCreate"
+                onClick={() => {
+                  addNewTask({
+                    title: formData.name,
+                    topic,
+                    status: "Без статуса",
+                    description: formData.text,
+                    date,
+                  });
+                  setDate(null);
+                  navigate("/");
+                }}
+              >
                 Создать задачу
               </button>
             </div>

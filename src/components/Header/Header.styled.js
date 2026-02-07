@@ -53,10 +53,6 @@ export const SHeader__btnMainNew = styled(S_hover01)`
   font-weight: 500;
   margin-right: 20px;
 
-  a {
-    color: #ffffff;
-  }
-
   @media screen and (max-width: 495px) {
     z-index: 3;
     position: fixed;

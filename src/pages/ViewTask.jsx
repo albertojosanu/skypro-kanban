@@ -1,7 +1,7 @@
 import PopBrowse from "../components/PopBrowse/PopBrowse.jsx";
 
-const ViewTaskPage = ({ tasks }) => {
-  return <PopBrowse tasks={tasks} />;
+const ViewTaskPage = () => {
+  return <PopBrowse />;
 };
 
 export default ViewTaskPage;

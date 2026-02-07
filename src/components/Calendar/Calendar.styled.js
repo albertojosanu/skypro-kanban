@@ -146,6 +146,12 @@ export const S_cellDay = styled.div`
   &:hover {
     color: #94a6be;
     background-color: #eaeef6;
+    width: 2em;
+    height: 2em;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
@@ -153,7 +159,9 @@ export const S_current = styled.div`
   font-weight: 700;
 `;
 
-export const S_weekend = styled.div``;
+export const S_weekend = styled.div`
+  color: #5d646b;
+`;
 
 export const SCalendar__p = styled.div`
   color: #94a6be;
@@ -169,5 +177,23 @@ export const SCalendar__p = styled.div`
   }
 `;
 
-export const SDateEnd = styled.p`
+export const SDateEnd = styled.p``;
+
+export const S_activeDay = styled.div`
+  background-color: #94a6be;
+  color: #ffffff;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const SDateControl = styled.span`
+  font-weight: 800;
+`;
+
+export const SHidden = styled.span`
+  display: none;
 `;
