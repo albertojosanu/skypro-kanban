@@ -1,8 +1,8 @@
 import PopExit from "../components/PopUser/PopUser.jsx";
 
-const SignOutPage = ({ setIsAuth, setTasks, setError }) => {
+const SignOutPage = () => {
   return (
-    <PopExit setIsAuth={setIsAuth} setTasks={setTasks} setError={setError} />
+    <PopExit />
   );
 };
 

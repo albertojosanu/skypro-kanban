@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   GlobalStyle,
@@ -14,9 +14,11 @@ import {
   SModal__description,
 } from "./AuthForm.styled.js";
 import { signIn, signUp } from "../../services/api.js";
+import { AuthContext } from "../../context/AuthContext.js";
 
-const AuthForm = ({ isSignUp, setIsAuth }) => {
+const AuthForm = ({ isSignUp }) => {
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -68,7 +70,7 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
     setError("");
   };
 
-  const handleSubmit = async (e) => {   
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
@@ -79,14 +81,12 @@ const AuthForm = ({ isSignUp, setIsAuth }) => {
             JSON.stringify({
               login: formData.login,
               password: formData.password,
-            })
+            }),
           )
         : await signUp(JSON.stringify(formData));
 
       if (data) {
-        setIsAuth(true);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        navigate("/");
+        !isSignUp ? (login(data), navigate("/")) : navigate("/login");
       }
     } catch (err) {
       setError(err.message);
