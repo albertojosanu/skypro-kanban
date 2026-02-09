@@ -12,8 +12,8 @@ import { TaskContext } from "../../context/TaskContext.js";
 
 function Main() {
   const { error } = useContext(TaskContext);
-  const { updateTasks } = useContext(TaskContext);
   const { loading } = useContext(TaskContext);
+  const { updateTasks } = useContext(TaskContext);
 
   useEffect(() => {
     updateTasks();

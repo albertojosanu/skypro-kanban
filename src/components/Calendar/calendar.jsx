@@ -15,7 +15,6 @@ import {
   SCalendar__dayName,
   SCalendar__cells,
   SCalendar__cell,
-  S_otherMonth,
   S_cellDay,
   S_current,
   S_weekend,
@@ -27,27 +26,30 @@ import {
 import { TaskContext } from "../../context/TaskContext.js";
 
 function Calendar({ mode = "edit" }) {
-  const [activeMonth, setActiveMonth] = useState(1);
-  const [activeYear, setActiveYear] = useState(2026);
-  const [activeDay, setActiveDay] = useState(null);
-  const [deadline, setDeadline] = useState("Выберите срок исполнения");
   const { date } = useContext(TaskContext);
   const { setDate } = useContext(TaskContext);
+  const [activeMonth, setActiveMonth] = useState(null);
+  const [activeYear, setActiveYear] = useState(null);
+  const [activeDay, setActiveDay] = useState(null);
+  const [deadline, setDeadline] = useState("Срок исполнения: ");
 
   const range = (start, end) =>
     Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
   useEffect(() => {
+    setActiveDay(date?.getDate());
+    setActiveMonth(date?.getMonth());
+    setActiveYear(date?.getFullYear());
+  }, [date]);
+
+  useEffect(() => {
     setDate(
-      mode === "edit" && activeDay
-        ? new Date(
-            String(activeMonth < 10 ? "0" + activeMonth : activeMonth) +
-              "." +
-              String(activeDay < 10 ? "0" + activeDay : activeDay) +
-              "." +
-              String(activeYear),
-          )
-        : null,
+      new Date(
+        activeYear,
+        activeMonth < 10 ? "0" + activeMonth : activeMonth,
+        activeDay < 10 ? "0" + activeDay : activeDay,
+        5,
+      ),
     );
   }, [activeDay, activeMonth, activeYear]);
 
@@ -63,43 +65,46 @@ function Calendar({ mode = "edit" }) {
             <SCalendar__month>
               {(() => {
                 switch (activeMonth) {
-                  case 1:
+                  case 0:
                     return "Январь ";
-                  case 2:
+                  case 1:
                     return "Февраль ";
-                  case 3:
+                  case 2:
                     return "Март ";
-                  case 4:
+                  case 3:
                     return "Апрель ";
-                  case 5:
+                  case 4:
                     return "Май ";
-                  case 6:
+                  case 5:
                     return "Июнь ";
-                  case 7:
+                  case 6:
                     return "Июль ";
-                  case 8:
+                  case 7:
                     return "Август ";
-                  case 9:
+                  case 8:
                     return "Сентябрь ";
-                  case 10:
+                  case 9:
                     return "Октябрь ";
-                  case 11:
+                  case 10:
                     return "Ноябрь ";
-                  case 12:
+                  case 11:
                     return "Декабрь ";
                 }
               })()}
               {activeYear}
             </SCalendar__month>
-
             <SNav__actions>
               <SNav__action
                 data-action="prev"
                 onClick={() => {
-                  activeMonth > 1
+                  activeMonth > 0
                     ? setActiveMonth(activeMonth - 1)
-                    : (setActiveMonth(12),
+                    : (setActiveMonth(11),
                       activeYear > 2026 && setActiveYear(activeYear - 1));
+                  activeDay > new Date(activeYear, activeMonth, 0).getDate() &&
+                    setActiveDay(
+                      new Date(activeYear, activeMonth, 0).getDate(),
+                    );
                 }}
               >
                 <svg
@@ -114,10 +119,15 @@ function Calendar({ mode = "edit" }) {
               <SNav__action
                 data-action="next"
                 onClick={() => {
-                  activeMonth < 12
+                  activeMonth < 11
                     ? setActiveMonth(activeMonth + 1)
-                    : (setActiveMonth(1),
+                    : (setActiveMonth(0),
                       activeYear < 2030 && setActiveYear(activeYear + 1));
+                  activeDay >
+                    new Date(activeYear, activeMonth + 2, 0).getDate() &&
+                    setActiveDay(
+                      new Date(activeYear, activeMonth + 2, 0).getDate(),
+                    );
                 }}
               >
                 <svg
@@ -144,15 +154,15 @@ function Calendar({ mode = "edit" }) {
             <SCalendar__cells>
               {range(
                 1,
-                new Date(activeYear, activeMonth - 1, 1).getDay() !== 0
-                  ? new Date(activeYear, activeMonth - 1, 1).getDay() - 1
+                new Date(activeYear, activeMonth, 1).getDay() !== 0
+                  ? new Date(activeYear, activeMonth, 1).getDay() - 1
                   : 6,
               ).map((data) => (
                 <SCalendar__cell key={data}>
                   <S_cellDay></S_cellDay>
                 </SCalendar__cell>
               ))}
-              {range(1, new Date(activeYear, activeMonth, 0).getDate()).map(
+              {range(1, new Date(activeYear, activeMonth + 1, 0).getDate()).map(
                 (data) => (
                   <SCalendar__cell
                     key={data}
@@ -167,23 +177,55 @@ function Calendar({ mode = "edit" }) {
                     }}
                   >
                     <S_cellDay>
-                      {new Date(activeYear, activeMonth - 1, data).getDay() ===
-                        0 ||
-                      new Date(activeYear, activeMonth - 1, data).getDay() ===
-                        6 ? (
-                        <S_weekend>
-                          {mode === "edit" && activeDay === data ? (
-                            <S_activeDay>{data}</S_activeDay>
+                      {new Date().toLocaleDateString("ru-RU") ===
+                      new Date(
+                        activeYear,
+                        activeMonth,
+                        data,
+                      ).toLocaleDateString("ru-RU") ? (
+                        <S_current>
+                          {new Date(activeYear, activeMonth, data).getDay() ===
+                            0 ||
+                          new Date(activeYear, activeMonth, data).getDay() ===
+                            6 ? (
+                            <S_weekend>
+                              {mode === "edit" && activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </S_weekend>
                           ) : (
-                            data
+                            <>
+                              {mode === "edit" && activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </>
                           )}
-                        </S_weekend>
+                        </S_current>
                       ) : (
                         <>
-                          {mode === "edit" && activeDay === data ? (
-                            <S_activeDay>{data}</S_activeDay>
+                          {new Date(activeYear, activeMonth, data).getDay() ===
+                            0 ||
+                          new Date(activeYear, activeMonth, data).getDay() ===
+                            6 ? (
+                            <S_weekend>
+                              {mode === "edit" && activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </S_weekend>
                           ) : (
-                            data
+                            <>
+                              {mode === "edit" && activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </>
                           )}
                         </>
                       )}

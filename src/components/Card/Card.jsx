@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { GlobalStyle } from "../../index.styled.js";
 import {
@@ -11,14 +12,17 @@ import {
   SCard__title,
   SCard__date,
 } from "./Card.styled.js";
+import { TaskContext } from "../../context/TaskContext.js";
 
 function Card({ cards, id }) {
   const card = cards.filter((data) => data._id === id);
-  const date = new Date(card[0].date).toLocaleDateString("ru-RU");
+  const date = new Date(card[0].date);
+  const { setDate } = useContext(TaskContext);
 
   const navigate = useNavigate();
   const handleCard = (e) => {
     e.preventDefault();
+    setDate(date);
     navigate("/card/" + id);
   };
 
@@ -70,7 +74,7 @@ function Card({ cards, id }) {
                   </defs>
                 </svg>
                 <p>
-                  {date}
+                  {date.toLocaleDateString("ru-RU")}
                 </p>
               </SCard__date>
             </SCard__content>

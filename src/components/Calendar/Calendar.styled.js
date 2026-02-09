@@ -103,7 +103,7 @@ export const SCalendar__dayName = styled.div`
 
 export const SCalendar__cells = styled.div`
   width: 182px;
-  height: 126px;
+  height: 146px;
   display: flex;
   flex-wrap: wrap;
 
@@ -156,7 +156,7 @@ export const S_cellDay = styled.div`
 `;
 
 export const S_current = styled.div`
-  font-weight: 700;
+  font-weight: 800;
 `;
 
 export const S_weekend = styled.div`

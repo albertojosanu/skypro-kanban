@@ -19,17 +19,19 @@ import {
 } from "./Header.styled.js";
 import { GlobalStyle, SContainer, S_hover03 } from "../../index.styled.js";
 import { AuthContext } from "../../context/AuthContext.js";
+import { TaskContext } from "../../context/TaskContext.js";
 
 function Header() {
   const { user } = useContext(AuthContext);
+  const { setDate } = useContext(TaskContext);
   const [window, setWindow] = useState(false);
 
   const navigate = useNavigate();
   const handleNewTask = (e) => {
     e.preventDefault();
+    setDate(new Date());
     navigate("/card/add");
   };
-
   const handleExit = (e) => {
     e.preventDefault();
     navigate("/exit");
