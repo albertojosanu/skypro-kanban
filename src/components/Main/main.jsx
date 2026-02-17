@@ -1,7 +1,6 @@
 import { useEffect, useContext } from "react";
 import Column from "../Column/Column.jsx";
 import {
-  SLoad,
   SMain,
   SMain__block,
   SMain__content,
@@ -11,20 +10,13 @@ import { GlobalStyle, SContainer } from "../../index.styled.js";
 import { TaskContext } from "../../context/TaskContext.js";
 
 function Main() {
-  const { error } = useContext(TaskContext);
-  const { loading } = useContext(TaskContext);
-  const { updateTasks } = useContext(TaskContext);
+  const { error, updateTasks } = useContext(TaskContext);
 
   useEffect(() => {
     updateTasks();
   }, [updateTasks]);
 
-  return loading ? (
-    <>
-      <GlobalStyle />
-      <SLoad>Загрузка...</SLoad>
-    </>
-  ) : (
+  return (
     <>
       <GlobalStyle />
       <SMain>

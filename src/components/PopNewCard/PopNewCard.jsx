@@ -5,10 +5,7 @@ import { GlobalStyle } from "../../index.styled.js";
 import { TaskContext } from "../../context/TaskContext.js";
 
 function PopNewCard() {
-  const { addNewTask } = useContext(TaskContext);
-  const { date } = useContext(TaskContext);
-  const { setDate } = useContext(TaskContext);
-  const { loading } = useContext(TaskContext);
+  const { addNewTask, date, setDate, loading, setError } = useContext(TaskContext);
 
   useEffect(() => {
     setDate(new Date());
@@ -29,9 +26,30 @@ function PopNewCard() {
     });
   };
 
+  let message = "Введите";
+
   const navigate = useNavigate();
   const handleCreate = (e) => {
     e.preventDefault();
+
+    if (!formData.name || !formData.text) {
+      if (!formData.name) {
+        message = message + " название";
+      }
+
+      if (!formData.text) {
+        if (!formData.name) {
+          message = message + " и";
+        }
+        message = message + " описание";
+      }
+
+      message = message + " задачи";
+      setError(message);
+      message = "Введите";
+      return;
+    }
+
     addNewTask({
       title: formData.name,
       topic,

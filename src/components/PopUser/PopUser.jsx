@@ -16,8 +16,7 @@ import { TaskContext } from "../../context/TaskContext.js";
 
 function PopExit() {
   const { logout } = useContext(AuthContext);
-  const { setTasks } = useContext(TaskContext);
-  const { setError } = useContext(TaskContext);
+  const { setTasks, setError } = useContext(TaskContext);
 
   const navigate = useNavigate();
   const handleQuit = (e) => {

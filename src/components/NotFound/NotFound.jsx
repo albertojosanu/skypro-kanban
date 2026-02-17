@@ -6,7 +6,7 @@ const NotFoundPage = () => {
     <>
       <GlobalStyle />
       <SContainer>
-        <SNotFound>Страница не найдена</SNotFound>
+        <SNotFound>404 Страница не найдена</SNotFound>
       </SContainer>
     </>
   );

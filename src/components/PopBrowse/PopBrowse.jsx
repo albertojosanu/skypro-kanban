@@ -6,17 +6,12 @@ import { TaskContext } from "../../context/TaskContext.js";
 import { colors } from "../../App.jsx";
 
 function PopBrowse() {
-  const { tasks } = useContext(TaskContext);
-  const { updateTask } = useContext(TaskContext);
-  const { removeTask } = useContext(TaskContext);
+  const { tasks, updateTask, removeTask, date, setDate, loading, setError } = useContext(TaskContext);
   const { id } = useParams();
   const card = tasks.find((data) => data._id === id);
   const [mode, setMode] = useState("browse");
   const [status, setStatus] = useState("Без статуса");
   let description = card?.description;
-  const { date } = useContext(TaskContext);
-  const { setDate } = useContext(TaskContext);
-  const { loading } = useContext(TaskContext);
 
   useEffect(() => {
     setStatus(card?.status);
@@ -26,6 +21,12 @@ function PopBrowse() {
   const navigate = useNavigate();
   const handleEdit = (e) => {
     e.preventDefault();
+
+    if (!description) {
+      setError("Введите описание задачи");
+      return;
+    }
+
     updateTask(
       {
         title: card?.title,

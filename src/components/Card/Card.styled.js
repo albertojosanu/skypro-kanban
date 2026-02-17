@@ -108,3 +108,10 @@ export const SCard__date = styled.div`
     letter-spacing: 0.2px;
   }
 `;
+
+export const SLoader = styled.div`
+  width: ${({ $width }) => $width}px;
+  height: ${({ $height }) => $height}px;
+  border-radius: ${({ $border }) => $border}px;
+  background: linear-gradient(to right, #b1b1b1 0%, #dddddd 80%, #b1b1b1 100%);;
+`;

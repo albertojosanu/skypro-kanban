@@ -21,10 +21,8 @@ import { GlobalStyle, SContainer, S_hover03 } from "../../index.styled.js";
 import { AuthContext } from "../../context/AuthContext.js";
 import { TaskContext } from "../../context/TaskContext.js";
 
-function Header() {
-  const { user } = useContext(AuthContext);
-  const { setDate } = useContext(TaskContext);
-  const [window, setWindow] = useState(false);
+function Header({ connect }) {
+  const { user, setDate } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const handleNewTask = (e) => {
@@ -35,6 +33,10 @@ function Header() {
   const handleExit = (e) => {
     e.preventDefault();
     navigate("/exit");
+  };
+  const handleStart = (e) => {
+    e.preventDefault();
+    navigate("/");
   };
 
   return (
@@ -59,46 +61,52 @@ function Header() {
                 </Link>
               </SDark>
             </SHeader__logo>
-            <SHeader__nav>
-              <SHeader__btnMainNew
-                as="button"
-                id="btnMainNew"
-                onClick={handleNewTask}
-              >
-                Создать новую задачу
+            {connect ? (
+              <SHeader__nav>
+                <SHeader__btnMainNew
+                  as="button"
+                  id="btnMainNew"
+                  onClick={handleNewTask}
+                >
+                  Создать новую задачу
+                </SHeader__btnMainNew>
+                {window === false ? (
+                  <SHeader__user
+                    onClick={() => {
+                      setWindow(true);
+                    }}
+                  >
+                    {user?.name}
+                  </SHeader__user>
+                ) : (
+                  <SHeader__user
+                    onClick={() => {
+                      setWindow(false);
+                    }}
+                  >
+                    {user?.name}
+                  </SHeader__user>
+                )}
+                <SHeader__popUserSet $type={window} id="user-set-target" data->
+                  <SPopUserSet>
+                    {/* <a href="">x</a> */}
+                    <SPopUserSet__name>{user?.name}</SPopUserSet__name>
+                    <SPopUserSet__mail>{user?.login}</SPopUserSet__mail>
+                    <SPopUserSet__theme>
+                      <p>Темная тема</p>
+                      <SCheckbox type="checkbox" name="checkbox" />
+                    </SPopUserSet__theme>
+                    <S_hover03 as="button" type="button" onClick={handleExit}>
+                      Выйти
+                    </S_hover03>
+                  </SPopUserSet>
+                </SHeader__popUserSet>
+              </SHeader__nav>
+            ) : (
+              <SHeader__btnMainNew as="button" onClick={handleStart}>
+                Перейти на главную
               </SHeader__btnMainNew>
-              {window === false ? (
-                <SHeader__user
-                  onClick={() => {
-                    setWindow(true);
-                  }}
-                >
-                  {user?.name}
-                </SHeader__user>
-              ) : (
-                <SHeader__user
-                  onClick={() => {
-                    setWindow(false);
-                  }}
-                >
-                  {user?.name}
-                </SHeader__user>
-              )}
-              <SHeader__popUserSet $type={window} id="user-set-target" data->
-                <SPopUserSet>
-                  {/* <a href="">x</a> */}
-                  <SPopUserSet__name>{user?.name}</SPopUserSet__name>
-                  <SPopUserSet__mail>{user?.login}</SPopUserSet__mail>
-                  <SPopUserSet__theme>
-                    <p>Темная тема</p>
-                    <SCheckbox type="checkbox" name="checkbox" />
-                  </SPopUserSet__theme>
-                  <S_hover03 as="button" type="button" onClick={handleExit}>
-                    Выйти
-                  </S_hover03>
-                </SPopUserSet>
-              </SHeader__popUserSet>
-            </SHeader__nav>
+            )}
           </SHeader__block>
         </SContainer>
       </SHeader>

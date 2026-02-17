@@ -7,7 +7,7 @@ const MainPage = () => {
   return (
     <>
       <SWrapper>
-        <Header />
+        <Header connect/>
         <Main />
         <Outlet />
       </SWrapper>

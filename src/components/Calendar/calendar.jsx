@@ -26,8 +26,7 @@ import {
 import { TaskContext } from "../../context/TaskContext.js";
 
 function Calendar({ mode = "edit" }) {
-  const { date } = useContext(TaskContext);
-  const { setDate } = useContext(TaskContext);
+  const { date, setDate } = useContext(TaskContext);
   const [activeMonth, setActiveMonth] = useState(null);
   const [activeYear, setActiveYear] = useState(null);
   const [activeDay, setActiveDay] = useState(null);
@@ -37,20 +36,22 @@ function Calendar({ mode = "edit" }) {
     Array.from({ length: end - start + 1 }, (_, i) => start + i);
 
   useEffect(() => {
-    setActiveDay(date?.getDate());
-    setActiveMonth(date?.getMonth());
-    setActiveYear(date?.getFullYear());
+    date &&
+      (setActiveDay(date.getDate()),
+      setActiveMonth(date.getMonth()),
+      setActiveYear(date.getFullYear()));
   }, [date]);
 
   useEffect(() => {
-    setDate(
-      new Date(
-        activeYear,
-        activeMonth < 10 ? "0" + activeMonth : activeMonth,
-        activeDay < 10 ? "0" + activeDay : activeDay,
-        5,
-      ),
-    );
+    activeDay &&
+      setDate(
+        new Date(
+          activeYear,
+          activeMonth < 10 ? "0" + activeMonth : activeMonth,
+          activeDay < 10 ? "0" + activeDay : activeDay,
+          5,
+        ),
+      );
   }, [activeDay, activeMonth, activeYear]);
 
   return (
@@ -189,7 +190,7 @@ function Calendar({ mode = "edit" }) {
                           new Date(activeYear, activeMonth, data).getDay() ===
                             6 ? (
                             <S_weekend>
-                              {mode === "edit" && activeDay === data ? (
+                              {activeDay === data ? (
                                 <S_activeDay>{data}</S_activeDay>
                               ) : (
                                 data
@@ -197,7 +198,7 @@ function Calendar({ mode = "edit" }) {
                             </S_weekend>
                           ) : (
                             <>
-                              {mode === "edit" && activeDay === data ? (
+                              {activeDay === data ? (
                                 <S_activeDay>{data}</S_activeDay>
                               ) : (
                                 data
@@ -212,7 +213,7 @@ function Calendar({ mode = "edit" }) {
                           new Date(activeYear, activeMonth, data).getDay() ===
                             6 ? (
                             <S_weekend>
-                              {mode === "edit" && activeDay === data ? (
+                              {activeDay === data ? (
                                 <S_activeDay>{data}</S_activeDay>
                               ) : (
                                 data
@@ -220,7 +221,7 @@ function Calendar({ mode = "edit" }) {
                             </S_weekend>
                           ) : (
                             <>
-                              {mode === "edit" && activeDay === data ? (
+                              {activeDay === data ? (
                                 <S_activeDay>{data}</S_activeDay>
                               ) : (
                                 data
@@ -240,8 +241,8 @@ function Calendar({ mode = "edit" }) {
           <SCalendar__period>
             <SCalendar__p>
               <SDateEnd>
-                {mode === "edit" ? deadline : ""}
-                {mode === "edit" && date !== null && (
+                {deadline}
+                {date !== null && (
                   <SDateControl>
                     {date.toLocaleDateString("ru-RU")}
                   </SDateControl>
