@@ -36,7 +36,7 @@ function Card({ cards, id }) {
       <GlobalStyle />
       <SCards__item>
         <SCards__card>
-          {!loading ? (
+          {loading ? (
             <SCard>
               <SCard__group>
                 <Loader width={100} height={20} border={10} />
