@@ -22,7 +22,9 @@ import { AuthContext } from "../../context/AuthContext.js";
 import { TaskContext } from "../../context/TaskContext.js";
 
 function Header({ connect }) {
-  const { user, setDate } = useContext(AuthContext);
+  const [window, setWindow] = useState(false);
+  const { user } = useContext(AuthContext);
+  const { setDate } = useContext(TaskContext);
 
   const navigate = useNavigate();
   const handleNewTask = (e) => {

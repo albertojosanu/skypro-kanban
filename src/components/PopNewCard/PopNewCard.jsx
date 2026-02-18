@@ -57,6 +57,7 @@ function PopNewCard() {
       description: formData.text,
       date,
     });
+    setError("")
     setDate(null);
     navigate("/");
   };
@@ -70,7 +71,7 @@ function PopNewCard() {
             <div className="pop-new-card__block">
               <div className="pop-new-card__content">
                 <h3 className="pop-new-card__ttl">Создание задачи</h3>
-                <Link to="/" className="pop-new-card__close">
+                <Link to="/" className="pop-new-card__close" onClick={() => setError("")}>
                   &#10006;
                 </Link>
                 <div className="pop-new-card__wrap">

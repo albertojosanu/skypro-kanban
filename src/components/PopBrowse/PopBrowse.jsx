@@ -6,12 +6,13 @@ import { TaskContext } from "../../context/TaskContext.js";
 import { colors } from "../../App.jsx";
 
 function PopBrowse() {
-  const { tasks, updateTask, removeTask, date, setDate, loading, setError } = useContext(TaskContext);
+  const { tasks, updateTask, removeTask, date, setDate, loading, setError } =
+    useContext(TaskContext);
   const { id } = useParams();
   const card = tasks.find((data) => data._id === id);
   const [mode, setMode] = useState("browse");
   const [status, setStatus] = useState("Без статуса");
-  let description = card?.description;
+  const [description, setDescription] = useState(card?.description);
 
   useEffect(() => {
     setStatus(card?.status);
@@ -37,17 +38,20 @@ function PopBrowse() {
       },
       card._id,
     );
+    setError("");
     setDate(null);
     navigate("/");
   };
   const handleDelete = (e) => {
     e.preventDefault();
     removeTask(card?._id);
+    setError("");
     setDate(null);
     navigate("/");
   };
   const handleClose = (e) => {
     e.preventDefault();
+    setError("");
     setDate(null);
     navigate("/");
   };
@@ -159,7 +163,7 @@ function PopBrowse() {
                           id="textArea01"
                           placeholder="Введите описание задачи..."
                           onChange={(e) => {
-                            description = e.target.value;
+                            setDescription(e.target.value);
                           }}
                         ></textarea>
                       )}
