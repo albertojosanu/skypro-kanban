@@ -1,4 +1,5 @@
-import { GlobalStyle } from "../../App.jsx";
+import { useState, useEffect, useContext } from "react";
+import { GlobalStyle } from "../../index.styled.js";
 import {
   SCalendar,
   SCalendar__ttl,
@@ -14,15 +15,45 @@ import {
   SCalendar__dayName,
   SCalendar__cells,
   SCalendar__cell,
-  S_otherMonth,
   S_cellDay,
   S_current,
   S_weekend,
   SCalendar__p,
   SDateEnd,
+  S_activeDay,
+  SDateControl,
 } from "./Calendar.styled.js";
+import { TaskContext } from "../../context/TaskContext.js";
 
-function Calendar() {
+function Calendar({ mode = "edit" }) {
+  const { date, setDate } = useContext(TaskContext);
+  const [activeMonth, setActiveMonth] = useState(null);
+  const [activeYear, setActiveYear] = useState(null);
+  const [activeDay, setActiveDay] = useState(null);
+  const [deadline, setDeadline] = useState("Срок исполнения: ");
+
+  const range = (start, end) =>
+    Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+  useEffect(() => {
+    date &&
+      (setActiveDay(date.getDate()),
+      setActiveMonth(date.getMonth()),
+      setActiveYear(date.getFullYear()));
+  }, [date]);
+
+  useEffect(() => {
+    activeDay &&
+      setDate(
+        new Date(
+          activeYear,
+          activeMonth < 10 ? "0" + activeMonth : activeMonth,
+          activeDay < 10 ? "0" + activeDay : activeDay,
+          5,
+        ),
+      );
+  }, [activeDay, activeMonth, activeYear]);
+
   return (
     <>
       <GlobalStyle />
@@ -32,9 +63,51 @@ function Calendar() {
         </SCalendar__ttl>
         <SCalendar__block>
           <SCalendar__nav>
-            <SCalendar__month>Сентябрь 2023</SCalendar__month>
+            <SCalendar__month>
+              {(() => {
+                switch (activeMonth) {
+                  case 0:
+                    return "Январь ";
+                  case 1:
+                    return "Февраль ";
+                  case 2:
+                    return "Март ";
+                  case 3:
+                    return "Апрель ";
+                  case 4:
+                    return "Май ";
+                  case 5:
+                    return "Июнь ";
+                  case 6:
+                    return "Июль ";
+                  case 7:
+                    return "Август ";
+                  case 8:
+                    return "Сентябрь ";
+                  case 9:
+                    return "Октябрь ";
+                  case 10:
+                    return "Ноябрь ";
+                  case 11:
+                    return "Декабрь ";
+                }
+              })()}
+              {activeYear}
+            </SCalendar__month>
             <SNav__actions>
-              <SNav__action data-action="prev">
+              <SNav__action
+                data-action="prev"
+                onClick={() => {
+                  activeMonth > 0
+                    ? setActiveMonth(activeMonth - 1)
+                    : (setActiveMonth(11),
+                      activeYear > 2026 && setActiveYear(activeYear - 1));
+                  activeDay > new Date(activeYear, activeMonth, 0).getDate() &&
+                    setActiveDay(
+                      new Date(activeYear, activeMonth, 0).getDate(),
+                    );
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="6"
@@ -44,7 +117,20 @@ function Calendar() {
                   <path d="M5.72945 1.95273C6.09018 1.62041 6.09018 1.0833 5.72945 0.750969C5.36622 0.416344 4.7754 0.416344 4.41218 0.750969L0.528487 4.32883C-0.176162 4.97799 -0.176162 6.02201 0.528487 6.67117L4.41217 10.249C4.7754 10.5837 5.36622 10.5837 5.72945 10.249C6.09018 9.9167 6.09018 9.37959 5.72945 9.04727L1.87897 5.5L5.72945 1.95273Z" />
                 </svg>
               </SNav__action>
-              <SNav__action data-action="next">
+              <SNav__action
+                data-action="next"
+                onClick={() => {
+                  activeMonth < 11
+                    ? setActiveMonth(activeMonth + 1)
+                    : (setActiveMonth(0),
+                      activeYear < 2030 && setActiveYear(activeYear + 1));
+                  activeDay >
+                    new Date(activeYear, activeMonth + 2, 0).getDate() &&
+                    setActiveDay(
+                      new Date(activeYear, activeMonth + 2, 0).getDate(),
+                    );
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="6"
@@ -67,141 +153,100 @@ function Calendar() {
               <SCalendar__dayName className="-weekend-">вс</SCalendar__dayName>
             </SCalendar__daysNames>
             <SCalendar__cells>
-              <SCalendar__cell>
-                <S_otherMonth>28</S_otherMonth>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_otherMonth>29</S_otherMonth>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_otherMonth>30</S_otherMonth>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>31</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>1</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>2</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>3</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>4</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>5</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>6</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>7</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_current>8</S_current>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>9</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>10</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>11</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>12</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>13</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>14</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>15</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>16</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>17</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>18</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>19</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>20</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>21</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>22</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>23</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>24</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>25</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>26</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>27</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>28</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>29</S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_cellDay>
-                  <S_weekend>30</S_weekend>
-                </S_cellDay>
-              </SCalendar__cell>
-              <SCalendar__cell>
-                <S_otherMonth>
-                  <S_weekend>1</S_weekend>
-                </S_otherMonth>
-              </SCalendar__cell>
+              {range(
+                1,
+                new Date(activeYear, activeMonth, 1).getDay() !== 0
+                  ? new Date(activeYear, activeMonth, 1).getDay() - 1
+                  : 6,
+              ).map((data) => (
+                <SCalendar__cell key={data}>
+                  <S_cellDay></S_cellDay>
+                </SCalendar__cell>
+              ))}
+              {range(1, new Date(activeYear, activeMonth + 1, 0).getDate()).map(
+                (data) => (
+                  <SCalendar__cell
+                    key={data}
+                    onClick={() => {
+                      mode === "edit" &&
+                        (!activeDay || data != activeDay
+                          ? (setActiveDay(data),
+                            setDeadline("Срок исполнения: "))
+                          : (setActiveDay(null),
+                            setDate(null),
+                            setDeadline("Выберите срок исполнения")));
+                    }}
+                  >
+                    <S_cellDay>
+                      {new Date().toLocaleDateString("ru-RU") ===
+                      new Date(
+                        activeYear,
+                        activeMonth,
+                        data,
+                      ).toLocaleDateString("ru-RU") ? (
+                        <S_current>
+                          {new Date(activeYear, activeMonth, data).getDay() ===
+                            0 ||
+                          new Date(activeYear, activeMonth, data).getDay() ===
+                            6 ? (
+                            <S_weekend>
+                              {activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </S_weekend>
+                          ) : (
+                            <>
+                              {activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </>
+                          )}
+                        </S_current>
+                      ) : (
+                        <>
+                          {new Date(activeYear, activeMonth, data).getDay() ===
+                            0 ||
+                          new Date(activeYear, activeMonth, data).getDay() ===
+                            6 ? (
+                            <S_weekend>
+                              {activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </S_weekend>
+                          ) : (
+                            <>
+                              {activeDay === data ? (
+                                <S_activeDay>{data}</S_activeDay>
+                              ) : (
+                                data
+                              )}
+                            </>
+                          )}
+                        </>
+                      )}
+                    </S_cellDay>
+                  </SCalendar__cell>
+                ),
+              )}
             </SCalendar__cells>
           </SCalendar__content>
 
-          <input type="hidden" id="datepick_value" value="08.09.2023" />
+          <input type="hidden" id="datepick_value" value="01.01.2026" />
           <SCalendar__period>
             <SCalendar__p>
               <SDateEnd>
-                Выберите срок исполнения <span className="date-control"></span>.
+                {deadline}
+                {date !== null && (
+                  <SDateControl>
+                    {date.toLocaleDateString("ru-RU")}
+                  </SDateControl>
+                )}
               </SDateEnd>
             </SCalendar__p>
           </SCalendar__period>

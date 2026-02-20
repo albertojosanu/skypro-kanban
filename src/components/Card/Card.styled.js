@@ -1,11 +1,5 @@
 import styled from "styled-components";
-
-const colors = {
-  "Web Design": ["#ffe4c2", "#ff6d00"], //_orange
-  Research: ["#b4fdd1", "#06b16e"], //green
-  Copywriting: ["#e9d4ff", "#9a48f1"], //purple
-  Unknown: ["#94a6be", "#ffffff"], //gray
-};
+import { colors } from "../../App.jsx";
 
 export const SCards__item = styled.div`
   padding: 5px;
@@ -64,21 +58,6 @@ export const SCard__theme = styled.div`
   }
 `;
 
-// export const S_orange = styled.div`
-//   background-color: #ffe4c2;
-//   color: #ff6d00;
-// `;
-
-// export const S_green = styled.div`
-//   background-color: #ffe4c2;
-//   color: #ff6d00;
-// `;
-
-// export const S_purple = styled.div`
-//   background-color: #ffe4c2;
-//   color: #ff6d00;
-// `;
-
 export const SCard__btn = styled.div`
   width: 24px;
   height: 24px;
@@ -86,6 +65,7 @@ export const SCard__btn = styled.div`
   align-items: center;
   justify-content: space-around;
   padding: 2px;
+  cursor: pointer;
 
   div {
     width: 4px;
@@ -127,4 +107,11 @@ export const SCard__date = styled.div`
     color: #94a6be;
     letter-spacing: 0.2px;
   }
+`;
+
+export const SLoader = styled.div`
+  width: ${({ $width }) => $width}px;
+  height: ${({ $height }) => $height}px;
+  border-radius: ${({ $border }) => $border}px;
+  background: linear-gradient(to right, #b1b1b1 0%, #dddddd 80%, #b1b1b1 100%);;
 `;

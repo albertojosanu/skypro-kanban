@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { GlobalStyle } from "../../App.jsx";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   SHeader,
   SHeader__block,
@@ -18,10 +17,29 @@ import {
   SPopUserSet__theme,
   SCheckbox,
 } from "./Header.styled.js";
-import { SContainer, S_hover03 } from "../../index.styled.js";
+import { GlobalStyle, SContainer, S_hover03 } from "../../index.styled.js";
+import { AuthContext } from "../../context/AuthContext.js";
+import { TaskContext } from "../../context/TaskContext.js";
 
-function Header() {
+function Header({ connect }) {
   const [window, setWindow] = useState(false);
+  const { user } = useContext(AuthContext);
+  const { setDate } = useContext(TaskContext);
+
+  const navigate = useNavigate();
+  const handleNewTask = (e) => {
+    e.preventDefault();
+    setDate(new Date());
+    navigate("/card/add");
+  };
+  const handleExit = (e) => {
+    e.preventDefault();
+    navigate("/exit");
+  };
+  const handleStart = (e) => {
+    e.preventDefault();
+    navigate("/");
+  };
 
   return (
     <>
@@ -32,7 +50,7 @@ function Header() {
             <SHeader__logo>
               <SShow>
                 <SLight>
-                  <Link to="/" target="_self">
+                  <Link to="/">
                     <img src="../images/logo.png" alt="logo" />
                   </Link>
                 </SLight>
@@ -40,47 +58,57 @@ function Header() {
             </SHeader__logo>
             <SHeader__logo>
               <SDark>
-                <Link to="/" target="_self">
+                <Link to="/">
                   <img src="../images/logo_dark.png" alt="logo" />
                 </Link>
               </SDark>
             </SHeader__logo>
-            <SHeader__nav>
-              <SHeader__btnMainNew as="button" id="btnMainNew">
-                  <Link to="/card/add">Создать новую задачу</Link>
+            {connect ? (
+              <SHeader__nav>
+                <SHeader__btnMainNew
+                  as="button"
+                  id="btnMainNew"
+                  onClick={handleNewTask}
+                >
+                  Создать новую задачу
+                </SHeader__btnMainNew>
+                {window === false ? (
+                  <SHeader__user
+                    onClick={() => {
+                      setWindow(true);
+                    }}
+                  >
+                    {user?.name}
+                  </SHeader__user>
+                ) : (
+                  <SHeader__user
+                    onClick={() => {
+                      setWindow(false);
+                    }}
+                  >
+                    {user?.name}
+                  </SHeader__user>
+                )}
+                <SHeader__popUserSet $type={window} id="user-set-target" data->
+                  <SPopUserSet>
+                    {/* <a href="">x</a> */}
+                    <SPopUserSet__name>{user?.name}</SPopUserSet__name>
+                    <SPopUserSet__mail>{user?.login}</SPopUserSet__mail>
+                    <SPopUserSet__theme>
+                      <p>Темная тема</p>
+                      <SCheckbox type="checkbox" name="checkbox" />
+                    </SPopUserSet__theme>
+                    <S_hover03 as="button" type="button" onClick={handleExit}>
+                      Выйти
+                    </S_hover03>
+                  </SPopUserSet>
+                </SHeader__popUserSet>
+              </SHeader__nav>
+            ) : (
+              <SHeader__btnMainNew as="button" onClick={handleStart}>
+                Перейти на главную
               </SHeader__btnMainNew>
-              {window === false ? (
-                <SHeader__user
-                  onClick={() => {
-                    setWindow(true);
-                  }}
-                >
-                  Ivan Ivanov
-                </SHeader__user>
-              ) : (
-                <SHeader__user
-                  onClick={() => {
-                    setWindow(false);
-                  }}
-                >
-                  Ivan Ivanov
-                </SHeader__user>
-              )}
-              <SHeader__popUserSet $type={window} id="user-set-target" data->
-                <SPopUserSet>
-                  {/* <a href="">x</a> */}
-                  <SPopUserSet__name>Ivan Ivanov</SPopUserSet__name>
-                  <SPopUserSet__mail>ivan.ivanov@gmail.com</SPopUserSet__mail>
-                  <SPopUserSet__theme>
-                    <p>Темная тема</p>
-                    <SCheckbox type="checkbox" name="checkbox" />
-                  </SPopUserSet__theme>
-                  <S_hover03 as="button" type="button">
-                    <Link to="/exit">Выйти</Link>
-                  </S_hover03>
-                </SPopUserSet>
-              </SHeader__popUserSet>
-            </SHeader__nav>
+            )}
           </SHeader__block>
         </SContainer>
       </SHeader>

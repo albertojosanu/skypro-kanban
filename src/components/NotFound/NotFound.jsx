@@ -1,13 +1,12 @@
-import { GlobalStyle } from "../../App.jsx";
 import { SNotFound } from "./NotFound.styled.js";
-import { SContainer } from "../../index.styled.js";
+import { GlobalStyle, SContainer } from "../../index.styled.js";
 
 const NotFoundPage = () => {
   return (
     <>
       <GlobalStyle />
       <SContainer>
-        <SNotFound>Страница не найдена</SNotFound>
+        <SNotFound>404 Страница не найдена</SNotFound>
       </SContainer>
     </>
   );

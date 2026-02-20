@@ -82,15 +82,6 @@ export const SPopExit__exitYes = styled(S_hover01)`
   color: #ffffff;
   margin-right: 10px;
 
-  a {
-    width: 100%;
-    height: 100%;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
   @media only screen and (max-width: 375px) {
     width: 100%;
     height: 40px;
@@ -113,16 +104,7 @@ export const SPopExit__exitNo = styled(S_hover03)`
   line-height: 21px;
   font-weight: 500;
   letter-spacing: -0.14px;
-  color: #ffffff;
-
-  a {
-    width: 100%;
-    height: 100%;
-    color: #565eef;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+  color: #565eef;
 
   @media only screen and (max-width: 375px) {
     width: 100%;

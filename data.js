@@ -1,4 +1,4 @@
-const cardList = [
+export const cardList = [
     {
         id: 1,
         topic: "Web Design",
